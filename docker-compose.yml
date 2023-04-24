@@ -1,0 +1,10 @@
+version: '3'
+services:
+  database:
+    container_name: rms_database
+    image: postgres
+    environment:
+      - POSTGRES_USER=rms
+      - POSTGRES_PASSWORD=12345678
+    ports:
+      - '5432:5432'
