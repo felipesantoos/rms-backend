@@ -1,0 +1,82 @@
+basePath: /api
+definitions:
+  response.ErrorMessage:
+    properties:
+      invalid_fields:
+        items:
+          $ref: '#/definitions/response.InvalidField'
+        type: array
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+  response.InvalidField:
+    properties:
+      description:
+        type: string
+      field_name:
+        type: string
+    type: object
+  response.KnowledgeArea:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact:
+    email: fss30@aluno.ifal.edu.br
+    name: Felipe da Silva Santos
+  description: RMS backend API
+  title: RMS API
+  version: "1.0"
+paths:
+  /res/knowledge-areas:
+    get:
+      description: Rota que lista todas as áreas de conhecimento cadastradas no banco
+        de dados.
+      operationId: Resources.ListKnowledgeAreas
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição realizada com sucesso.
+          schema:
+            items:
+              $ref: '#/definitions/response.KnowledgeArea'
+            type: array
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Listar todas as áreas de conhecimento cadastradas no banco de dados.
+      tags:
+      - Rotas de recursos
+swagger: "2.0"
