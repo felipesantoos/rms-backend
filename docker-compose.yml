@@ -1,10 +1,32 @@
 version: '3'
 services:
+  api:
+    container_name: backend_template_api
+    build:
+      context: .
+      dockerfile: tools/docker/Dockerfile.api
+    env_file: src/ui/api/app/.env-for-docker
+    depends_on:
+      - database
+    ports:
+      - "8000:8000"
   database:
-    container_name: rms_database
-    image: postgres
+    container_name: backend_template_database
+    build:
+      context: .
+      dockerfile: tools/docker/Dockerfile.postgres
     environment:
-      - POSTGRES_USER=rms
+      - POSTGRES_USER=backend_template
       - POSTGRES_PASSWORD=12345678
     ports:
-      - '5432:5432'
+      - "5432:5432"
+  redis:
+    image: redis
+    container_name: backend_template_redis
+    command:
+      - /bin/sh
+      - -c
+      - redis-server --requirepass "$${REDIS_PASSWORD:?REDIS_PASSWORD variable is not set}"
+    ports:
+      - "6379:6379"
+    env_file: src/ui/api/app/.env-for-docker
