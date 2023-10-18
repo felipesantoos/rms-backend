@@ -6,17 +6,17 @@ import (
 	"rms-backend/src/ui/api/handlers"
 )
 
-type resourcesRouter struct {
-	handler handlers.ResourcesHandler
+type projectRouter struct {
+	projectHandler handlers.ProjectHandlers
 }
 
-func NewResourcesRouter() Router {
-	usecase := dicontainer.ResourcesUseCase()
-	handler := handlers.NewResourcesHandler(usecase)
-	return &resourcesRouter{handler}
+func NewProjectRouter() Router {
+	projectServices := dicontainer.ProjectServices()
+	projectHandler := handlers.NewResourcesHandler(projectServices)
+	return &projectRouter{projectHandler: projectHandler}
 }
 
-func (this *resourcesRouter) Load(apiGroup *echo.Group) {
-	router := apiGroup.Group("/res")
-	router.GET("/knowledge-areas", this.handler.ListKnowledgeAreas)
+func (this *projectRouter) Load(apiGroup *echo.Group) {
+	projectGroup := apiGroup.Group("/projects")
+	projectGroup.POST("", this.projectHandler.Create)
 }
