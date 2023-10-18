@@ -55,7 +55,7 @@ func (this *builder) WithAlias(alias string) *builder {
 }
 
 func (this *builder) WithDescription(description string) *builder {
-	this.project.alias = description
+	this.project.description = description
 	return this
 }
 

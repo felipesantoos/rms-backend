@@ -3,14 +3,14 @@ package postgres
 import (
 	"rms-backend/src/core/domain/errors"
 	"rms-backend/src/infra"
-	"rms-backend/src/infra/repository"
+	"rms-backend/src/infra/repository/postgres/database"
 	"strings"
 )
 
 var infraLogger = infra.Logger().With().Str("port", "postgres").Logger()
 
 func defaultExecQuery(sqlQuery string, args ...interface{}) errors.Error {
-	result, err := repository.ExecQuery(sqlQuery, args...)
+	result, err := database.ExecQuery(sqlQuery, args...)
 	if err != nil {
 		return err
 	} else if rowsAff, err := result.RowsAffected(); err != nil {
@@ -28,7 +28,7 @@ func defaultExecQuery(sqlQuery string, args ...interface{}) errors.Error {
 	return nil
 }
 
-func defaultTxExecQuery(tx *repository.SQLTransaction, sqlQuery string, args ...interface{}) errors.Error {
+func defaultTxExecQuery(tx *database.SQLTransaction, sqlQuery string, args ...interface{}) errors.Error {
 	result, err := tx.ExecQuery(sqlQuery, args...)
 	if err != nil {
 		if rollbackErr := tx.Rollback(); rollbackErr != nil {
@@ -56,14 +56,14 @@ func defaultTxExecQuery(tx *repository.SQLTransaction, sqlQuery string, args ...
 	return nil
 }
 
-func txQueryRowReturningID(tx *repository.SQLTransaction, sqlQuery string, args ...interface{}) (string, errors.Error) {
+func txQueryRowReturningID(tx *database.SQLTransaction, sqlQuery string, args ...interface{}) (string, errors.Error) {
 	row := tx.QueryRow(sqlQuery, args...)
 	if err := row.Err(); err != nil {
 		rollBackErr := tx.Rollback()
 		if rollBackErr != nil {
 			return "", rollBackErr
 		}
-		return "", repository.TranslateError(row.Err())
+		return "", database.TranslateError(row.Err())
 	}
 	var strUUID = ""
 	scanErr := row.Scan(&strUUID)
@@ -72,7 +72,7 @@ func txQueryRowReturningID(tx *repository.SQLTransaction, sqlQuery string, args 
 		if rollBackErr != nil {
 			return "", rollBackErr
 		}
-		return "", repository.TranslateError(scanErr)
+		return "", database.TranslateError(scanErr)
 	}
 	return strUUID, nil
 }

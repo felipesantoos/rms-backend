@@ -18,24 +18,38 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/res/knowledge-areas": {
-            "get": {
-                "description": "Rota que lista todas as áreas de conhecimento cadastradas no banco de dados.",
+        "/projects": {
+            "post": {
+                "description": "Rota que permite o cadastro de um projeto.",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Rotas de recursos"
+                    "Projetos"
                 ],
-                "summary": "Listar todas as áreas de conhecimento cadastradas no banco de dados.",
-                "operationId": "Resources.ListKnowledgeAreas",
+                "summary": "Cadastrar projeto",
+                "operationId": "Project.Create",
+                "parameters": [
+                    {
+                        "description": "JSON com todos os dados necessários para se cadastrar um projeto.",
+                        "name": "json",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.Project"
+                        }
+                    }
+                ],
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Requisição realizada com sucesso.",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/response.KnowledgeArea"
+                                "$ref": "#/definitions/response.ID"
                             }
                         }
                     },
@@ -86,6 +100,27 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "request.Project": {
+            "type": "object",
+            "properties": {
+                "alias": {
+                    "type": "string",
+                    "example": "Project-A"
+                },
+                "description": {
+                    "type": "string",
+                    "example": "Description of the Project A."
+                },
+                "is_active": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Project A"
+                }
+            }
+        },
         "response.ErrorMessage": {
             "type": "object",
             "properties": {
@@ -103,6 +138,14 @@ const docTemplate = `{
                 }
             }
         },
+        "response.ID": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
         "response.InvalidField": {
             "type": "object",
             "properties": {
@@ -110,17 +153,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "field_name": {
-                    "type": "string"
-                }
-            }
-        },
-        "response.KnowledgeArea": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "name": {
                     "type": "string"
                 }
             }
@@ -138,8 +170,6 @@ var SwaggerInfo = &swag.Spec{
 	Description:      "RMS backend API",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
-	LeftDelim:        "{{",
-	RightDelim:       "}}",
 }
 
 func init() {

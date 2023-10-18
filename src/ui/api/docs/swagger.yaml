@@ -1,5 +1,20 @@
 basePath: /api
 definitions:
+  request.Project:
+    properties:
+      alias:
+        example: Project-A
+        type: string
+      description:
+        example: Description of the Project A.
+        type: string
+      is_active:
+        example: true
+        type: boolean
+      name:
+        example: Project A
+        type: string
+    type: object
   response.ErrorMessage:
     properties:
       invalid_fields:
@@ -11,18 +26,16 @@ definitions:
       status_code:
         type: integer
     type: object
+  response.ID:
+    properties:
+      id:
+        type: string
+    type: object
   response.InvalidField:
     properties:
       description:
         type: string
       field_name:
-        type: string
-    type: object
-  response.KnowledgeArea:
-    properties:
-      id:
-        type: string
-      name:
         type: string
     type: object
 info:
@@ -33,19 +46,27 @@ info:
   title: RMS API
   version: "1.0"
 paths:
-  /res/knowledge-areas:
-    get:
-      description: Rota que lista todas as áreas de conhecimento cadastradas no banco
-        de dados.
-      operationId: Resources.ListKnowledgeAreas
+  /projects:
+    post:
+      consumes:
+      - application/json
+      description: Rota que permite o cadastro de um projeto.
+      operationId: Project.Create
+      parameters:
+      - description: JSON com todos os dados necessários para se cadastrar um projeto.
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/request.Project'
       produces:
       - application/json
       responses:
-        "200":
+        "201":
           description: Requisição realizada com sucesso.
           schema:
             items:
-              $ref: '#/definitions/response.KnowledgeArea'
+              $ref: '#/definitions/response.ID'
             type: array
         "400":
           description: Requisição mal formulada.
@@ -76,7 +97,7 @@ paths:
           description: A base de dados está temporariamente indisponível.
           schema:
             $ref: '#/definitions/response.ErrorMessage'
-      summary: Listar todas as áreas de conhecimento cadastradas no banco de dados.
+      summary: Cadastrar projeto
       tags:
-      - Rotas de recursos
+      - Projetos
 swagger: "2.0"
