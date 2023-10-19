@@ -49,7 +49,15 @@ func (projectCommand) Create() string {
 }
 
 func (projectCommand) Update() string {
-	return empty
+	return `
+		UPDATE project SET
+		   name = $1,
+		   alias = $2,
+		   description = $3,
+		   is_active = $4,
+		   updated_at = NOW()
+		WHERE id = $5
+	`
 }
 
 func (projectCommand) Delete() string {

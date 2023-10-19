@@ -29,7 +29,7 @@ func (this *projectServices) Get(id uuid.UUID) (project.Project, errors.Error) {
 }
 
 func (this *projectServices) Update(projectObject project.Project) errors.Error {
-	return nil
+	return this.projectRepository.Update(projectObject)
 }
 
 func (this *projectServices) Delete(id uuid.UUID) errors.Error {

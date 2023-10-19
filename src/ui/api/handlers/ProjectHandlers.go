@@ -108,9 +108,44 @@ func (this *projectHandlers) Get(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, response.ProjectBuilder().BuildFromDomain(project))
 }
 
+// Update
+// @ID Project.Update
+// @Summary Atualizar projeto
+// @Description Rota que permite a atualização de um projeto.
+// @Tags Projetos
+// @Accept json
+// @Param id path string true "ID do projeto."
+// @Param json body request.Project true "JSON com todos os dados necessários para se atualizar um projeto."
+// @Produce json
+// @Success 204 {object} nil "Requisição realizada com sucesso."
+// @Failure 400 {object} response.ErrorMessage "Requisição mal formulada."
+// @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
+// @Failure 403 {object} response.ErrorMessage "Acesso negado."
+// @Failure 404 {object} response.ErrorMessage "Recurso não encontrado."
+// @Failure 422 {object} response.ErrorMessage "Ocorreu um erro de validação de dados. Vefique os valores, tipos e formatos de dados enviados."
+// @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado. Por favor, contate o suporte."
+// @Failure 503 {object} response.ErrorMessage "A base de dados está temporariamente indisponível."
+// @Router /projects/{id} [put]
 func (this *projectHandlers) Update(ctx echo.Context) error {
-	//TODO implement me
-	panic("implement me")
+	id, err := getUUIDParamFromRequestPath(ctx, params.ID)
+	var projectDTO request.Project
+	bindError := ctx.Bind(&projectDTO)
+	if bindError != nil {
+		return responseFromError(errors.New(bindError))
+	}
+	projectObject, validationError := projectDTO.ToDomain()
+	if validationError != nil {
+		return responseFromError(validationError)
+	}
+	validationError = projectObject.SetID(*id)
+	if validationError != nil {
+		return responseFromError(validationError)
+	}
+	err = this.projectServices.Update(projectObject)
+	if err != nil {
+		return responseFromError(err)
+	}
+	return ctx.NoContent(http.StatusNoContent)
 }
 
 func (this *projectHandlers) Delete(ctx echo.Context) error {
