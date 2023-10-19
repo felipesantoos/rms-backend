@@ -22,4 +22,5 @@ func (this *projectRouter) Load(apiGroup *echo.Group) {
 	projectGroup.GET("", this.projectHandler.List)
 	projectGroup.GET("/:id", this.projectHandler.Get)
 	projectGroup.PUT("/:id", this.projectHandler.Update)
+	projectGroup.DELETE("/:id", this.projectHandler.Delete)
 }

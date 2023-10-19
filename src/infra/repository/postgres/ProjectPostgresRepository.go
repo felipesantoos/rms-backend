@@ -98,5 +98,9 @@ func (this *projectPostgresRepository) Update(projectObject project.Project) err
 }
 
 func (this *projectPostgresRepository) Delete(id uuid.UUID) errors.Error {
+	err := defaultExecQuery(database.Project().Command().Delete(), id)
+	if err != nil {
+		return logger.LogCustomError(err)
+	}
 	return nil
 }

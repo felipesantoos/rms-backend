@@ -61,7 +61,13 @@ func (projectCommand) Update() string {
 }
 
 func (projectCommand) Delete() string {
-	return empty
+	return `
+		UPDATE project SET
+		   is_active = false,
+		   deleted_at = NOW(),
+		   updated_at = NOW()
+		WHERE id = $1
+	`
 }
 
 // Query
