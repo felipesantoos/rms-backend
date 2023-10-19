@@ -7,6 +7,7 @@ import (
 	primary "rms-backend/src/core/interfaces/primary"
 	"rms-backend/src/ui/api/handlers/dto/request"
 	"rms-backend/src/ui/api/handlers/dto/response"
+	"rms-backend/src/ui/api/handlers/utils/params"
 )
 
 type ProjectHandlers interface {
@@ -82,9 +83,29 @@ func (this *projectHandlers) List(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, response.ProjectBuilder().BuildFromDomainList(projects))
 }
 
+// Get
+// @ID Project.Get
+// @Summary Buscar detalhes de um projeto pelo ID
+// @Description Rota que permite a buscar dos detalhes de um projeto pelo ID.
+// @Tags Projetos
+// @Param id path string true "ID do projeto."
+// @Produce json
+// @Success 200 {object} response.Project "Requisição realizada com sucesso."
+// @Failure 400 {object} response.ErrorMessage "Requisição mal formulada."
+// @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
+// @Failure 403 {object} response.ErrorMessage "Acesso negado."
+// @Failure 404 {object} response.ErrorMessage "Recurso não encontrado."
+// @Failure 422 {object} response.ErrorMessage "Ocorreu um erro de validação de dados. Vefique os valores, tipos e formatos de dados enviados."
+// @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado. Por favor, contate o suporte."
+// @Failure 503 {object} response.ErrorMessage "A base de dados está temporariamente indisponível."
+// @Router /projects/{id} [get]
 func (this *projectHandlers) Get(ctx echo.Context) error {
-	//TODO implement me
-	panic("implement me")
+	id, err := getUUIDParamFromRequestPath(ctx, params.ID)
+	project, err := this.projectServices.Get(*id)
+	if err != nil {
+		return responseFromError(err)
+	}
+	return ctx.JSON(http.StatusOK, response.ProjectBuilder().BuildFromDomain(project))
 }
 
 func (this *projectHandlers) Update(ctx echo.Context) error {
