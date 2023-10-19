@@ -21,4 +21,5 @@ func (this *projectRouter) Load(apiGroup *echo.Group) {
 	projectGroup.POST("", this.projectHandler.Create)
 	projectGroup.GET("", this.projectHandler.List)
 	projectGroup.GET("/:id", this.projectHandler.Get)
+	projectGroup.PUT("/:id", this.projectHandler.Update)
 }

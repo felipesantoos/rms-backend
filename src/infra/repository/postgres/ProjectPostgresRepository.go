@@ -83,6 +83,17 @@ func (this *projectPostgresRepository) Get(id uuid.UUID) (project.Project, error
 }
 
 func (this *projectPostgresRepository) Update(projectObject project.Project) errors.Error {
+	err := defaultExecQuery(
+		database.Project().Command().Update(),
+		projectObject.Name(),
+		projectObject.Alias(),
+		projectObject.Description(),
+		projectObject.IsActive(),
+		projectObject.ID(),
+	)
+	if err != nil {
+		return logger.LogCustomError(err)
+	}
 	return nil
 }
 

@@ -210,4 +210,58 @@ paths:
       summary: Buscar detalhes de um projeto pelo ID
       tags:
       - Projetos
+    put:
+      consumes:
+      - application/json
+      description: Rota que permite a atualização de um projeto.
+      operationId: Project.Update
+      parameters:
+      - description: ID do projeto.
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: JSON com todos os dados necessários para se atualizar um projeto.
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/request.Project'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Requisição realizada com sucesso.
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Atualizar projeto
+      tags:
+      - Projetos
 swagger: "2.0"

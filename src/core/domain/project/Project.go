@@ -2,6 +2,8 @@ package project
 
 import (
 	"github.com/google/uuid"
+	"rms-backend/src/core/domain/errors"
+	"rms-backend/src/core/messages"
 	"time"
 )
 
@@ -17,7 +19,7 @@ type Project interface {
 	UpdatedAt() time.Time
 	DeletedAt() *time.Time
 
-	SetID(uuid.UUID)
+	SetID(uuid.UUID) errors.Error
 	SetName(string)
 	SetAlias(string)
 	SetDescription(string)
@@ -70,8 +72,12 @@ func (this *project) DeletedAt() *time.Time {
 	return this.deletedAt
 }
 
-func (this *project) SetID(id uuid.UUID) {
+func (this *project) SetID(id uuid.UUID) errors.Error {
+	if id.ID() == 0 {
+		return errors.NewValidationFromString(messages.ProjectIDCannotBeEmpty)
+	}
 	this.id = id
+	return nil
 }
 
 func (this *project) SetName(name string) {
