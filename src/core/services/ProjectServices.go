@@ -25,7 +25,7 @@ func (this *projectServices) List() ([]project.Project, errors.Error) {
 }
 
 func (this *projectServices) Get(id uuid.UUID) (project.Project, errors.Error) {
-	return nil, nil
+	return this.projectRepository.Get(id)
 }
 
 func (this *projectServices) Update(projectObject project.Project) errors.Error {

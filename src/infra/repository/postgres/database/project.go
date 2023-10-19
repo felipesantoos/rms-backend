@@ -85,5 +85,17 @@ func (projectQuery) All() string {
 }
 
 func (projectQuery) ByID() string {
-	return empty
+	return `
+		SELECT 
+		    project.id AS project_id,
+			project.name AS project_name,
+			project.alias AS project_alias,
+			project.description AS project_description,
+			project.is_active AS project_is_active,
+			project.created_at AS project_created_at,
+			project.updated_at AS project_updated_at,
+			project.deleted_at AS project_deleted_at
+		FROM project
+		WHERE project.id = $1
+	`
 }

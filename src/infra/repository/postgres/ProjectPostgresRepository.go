@@ -6,6 +6,7 @@ import (
 	"rms-backend/src/core/domain/project"
 	"rms-backend/src/core/interfaces/repository"
 	"rms-backend/src/core/logger"
+	"rms-backend/src/core/messages"
 	"rms-backend/src/infra/repository/postgres/database"
 	"rms-backend/src/infra/repository/postgres/queryObject"
 )
@@ -65,7 +66,20 @@ func (this *projectPostgresRepository) List() ([]project.Project, errors.Error) 
 }
 
 func (this *projectPostgresRepository) Get(id uuid.UUID) (project.Project, errors.Error) {
-	return nil, nil
+	row, err := database.Queryx(database.Project().Query().ByID(), id)
+	if err != nil {
+		return nil, logger.LogCustomError(err)
+	}
+	for !row.Next() {
+		return nil, logger.LogCustomError(errors.NewFromString(messages.ProjectNotFoundErrorMessage))
+	}
+	serializedProject := map[string]interface{}{}
+	row.MapScan(serializedProject)
+	projectObject, err := queryObject.NewProjectFromMapRows(serializedProject)
+	if err != nil {
+		return nil, logger.LogCustomError(err)
+	}
+	return projectObject, nil
 }
 
 func (this *projectPostgresRepository) Update(projectObject project.Project) errors.Error {
