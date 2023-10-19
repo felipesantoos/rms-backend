@@ -6,6 +6,7 @@ import (
 	"rms-backend/src/core/domain/project"
 	"rms-backend/src/core/interfaces/primary"
 	"rms-backend/src/core/interfaces/repository"
+	"rms-backend/src/core/logger"
 )
 
 type projectServices struct {
@@ -17,21 +18,41 @@ func NewProjectServices(projectRepository repository.IProjectRepository) primary
 }
 
 func (this *projectServices) Create(projectObject project.Project) (*uuid.UUID, errors.Error) {
-	return this.projectRepository.Create(projectObject)
+	id, err := this.projectRepository.Create(projectObject)
+	if err != nil {
+		return nil, logger.LogCustomError(err)
+	}
+	return id, nil
 }
 
 func (this *projectServices) List() ([]project.Project, errors.Error) {
-	return this.projectRepository.List()
+	projects, err := this.projectRepository.List()
+	if err != nil {
+		return nil, logger.LogCustomError(err)
+	}
+	return projects, nil
 }
 
 func (this *projectServices) Get(id uuid.UUID) (project.Project, errors.Error) {
-	return this.projectRepository.Get(id)
+	projectObject, err := this.projectRepository.Get(id)
+	if err != nil {
+		return nil, logger.LogCustomError(err)
+	}
+	return projectObject, nil
 }
 
 func (this *projectServices) Update(projectObject project.Project) errors.Error {
-	return this.projectRepository.Update(projectObject)
+	err := this.projectRepository.Update(projectObject)
+	if err != nil {
+		return logger.LogCustomError(err)
+	}
+	return nil
 }
 
 func (this *projectServices) Delete(id uuid.UUID) errors.Error {
+	err := this.projectRepository.Delete(id)
+	if err != nil {
+		return logger.LogCustomError(err)
+	}
 	return nil
 }

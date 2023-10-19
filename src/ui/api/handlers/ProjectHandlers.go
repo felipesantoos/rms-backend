@@ -148,7 +148,28 @@ func (this *projectHandlers) Update(ctx echo.Context) error {
 	return ctx.NoContent(http.StatusNoContent)
 }
 
+// Delete
+// @ID Project.Delete
+// @Summary Deletar projeto
+// @Description Rota que permite a deleção de um projeto.
+// @Tags Projetos
+// @Accept json
+// @Param id path string true "ID do projeto."
+// @Produce json
+// @Success 204 {object} nil "Requisição realizada com sucesso."
+// @Failure 400 {object} response.ErrorMessage "Requisição mal formulada."
+// @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
+// @Failure 403 {object} response.ErrorMessage "Acesso negado."
+// @Failure 404 {object} response.ErrorMessage "Recurso não encontrado."
+// @Failure 422 {object} response.ErrorMessage "Ocorreu um erro de validação de dados. Vefique os valores, tipos e formatos de dados enviados."
+// @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado. Por favor, contate o suporte."
+// @Failure 503 {object} response.ErrorMessage "A base de dados está temporariamente indisponível."
+// @Router /projects/{id} [delete]
 func (this *projectHandlers) Delete(ctx echo.Context) error {
-	//TODO implement me
-	panic("implement me")
+	id, err := getUUIDParamFromRequestPath(ctx, params.ID)
+	err = this.projectServices.Delete(*id)
+	if err != nil {
+		return responseFromError(err)
+	}
+	return ctx.NoContent(http.StatusNoContent)
 }
