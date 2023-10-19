@@ -12,8 +12,8 @@ type projectRouter struct {
 
 func NewProjectRouter() Router {
 	projectServices := dicontainer.ProjectServices()
-	projectHandler := handlers.NewResourcesHandler(projectServices)
-	return &projectRouter{projectHandler: projectHandler}
+	projectHandlers := handlers.NewProjectHandler(projectServices)
+	return &projectRouter{projectHandler: projectHandlers}
 }
 
 func (this *projectRouter) Load(apiGroup *echo.Group) {

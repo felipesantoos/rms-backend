@@ -10,3 +10,8 @@ func ProjectServices() primary.IProjectServices {
 	projectRepository := postgres.NewProjectPostgresRepository()
 	return services.NewProjectServices(projectRepository)
 }
+
+func PriorityServices() primary.IPriorityServices {
+	priorityRepository := postgres.NewPriorityPostgresRepository()
+	return services.NewPriorityServices(priorityRepository)
+}

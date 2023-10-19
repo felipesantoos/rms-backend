@@ -1,0 +1,5 @@
+id;name;description;created_at;updated_at
+9e57a3e7-8be3-4c0e-8a0d-6ae7cde4b87c;Functional;Functional requirements for the project;2023-10-19 00:00:00;2023-10-19 00:00:00
+e06c15c3-7529-4f12-9a80-05e60d777264;Non-Functional;Non-Functional requirements for the project;2023-10-19 00:00:00;2023-10-19 00:00:00
+c786e134-5aeb-4de6-a0ad-0a28ee0cc6c1;Security;Security-related requirements;2023-10-19 00:00:00;2023-10-19 00:00:00
+f0d0b0e7-4dd0-47b1-9b2a-1653de9e0a06;Usability;Usability requirements;2023-10-19 00:00:00;2023-10-19 00:00:00
