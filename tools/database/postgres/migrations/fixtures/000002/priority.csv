@@ -1,0 +1,5 @@
+id;level;description;created_at;updated_at
+f3ab3bf0-76f1-4ad7-8c3b-1f93eac9d4a0;High;High priority tasks;2023-10-19 00:00:00;2023-10-19 00:00:00
+a4a9e3c0-00e7-4d2d-8b84-982f18d9e71b;Medium;Medium priority tasks;2023-10-19 00:00:00;2023-10-19 00:00:00
+e1c2f8e9-72e1-423a-a8b6-2f92da83d1f8;Low;Low priority tasks;2023-10-19 00:00:00;2023-10-19 00:00:00
+d4a0b2a9-8bf2-42a7-90c1-1b8e7af9e0b9;Critical;Critical priority tasks;2023-10-19 00:00:00;2023-10-19 00:00:00

@@ -1,0 +1,5 @@
+id;name;alias;description;is_active;created_at;updated_at;deleted_at
+38b27910-e17f-4b8d-bc3f-85ca1c76e3db;Project 1;proj1;Description for Project 1;true;2023-10-19 00:00:00;2023-10-19 00:00:00;
+a3f9c0a9-73a1-4a2b-a9c4-837c1393e6ed;Project 2;proj2;Description for Project 2;true;2023-10-19 00:00:00;2023-10-19 00:00:00;
+e4eac6d7-9e45-4023-b4f3-76ea0d35bb7d;Project 3;proj3;Description for Project 3;false;2023-10-19 00:00:00;2023-10-19 00:00:00;
+b875f6ab-4a4f-4cf9-a6ce-4abf4d58ef8a;Project 4;proj4;Description for Project 4;true;2023-10-19 00:00:00;2023-10-19 00:00:00;

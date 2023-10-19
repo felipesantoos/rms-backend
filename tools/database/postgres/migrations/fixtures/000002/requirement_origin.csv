@@ -1,0 +1,5 @@
+id;name;description;created_at;updated_at
+c1d8e2a4-88ea-43e6-bb90-5711b34b7a8f;User;Requirements originated from user feedback;2023-10-19 00:00:00;2023-10-19 00:00:00
+f7acae59-df21-4e2f-a1ad-8b98b17124e7;Business;Requirements derived from business needs;2023-10-19 00:00:00;2023-10-19 00:00:00
+3d77a2e2-27ef-4239-9ca7-2159be34a170;Regulatory;Requirements arising from regulatory compliance;2023-10-19 00:00:00;2023-10-19 00:00:00
+a9905b84-72e2-4d71-a482-2b7cb4b2f4c0;Technical;Requirements based on technical considerations;2023-10-19 00:00:00;2023-10-19 00:00:00

@@ -22,7 +22,7 @@ type projectHandlers struct {
 	projectServices primary.IProjectServices
 }
 
-func NewResourcesHandler(projectServices primary.IProjectServices) ProjectHandlers {
+func NewProjectHandler(projectServices primary.IProjectServices) ProjectHandlers {
 	return &projectHandlers{projectServices: projectServices}
 }
 

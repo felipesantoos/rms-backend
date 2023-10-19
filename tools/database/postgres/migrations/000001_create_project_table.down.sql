@@ -1,0 +1,7 @@
+-- Tables
+
+DROP TABLE IF EXISTS project;
+
+-- Datas
+
+TRUNCATE project RESTART IDENTITY CASCADE;
