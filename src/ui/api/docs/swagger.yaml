@@ -3,7 +3,7 @@ definitions:
   request.Project:
     properties:
       alias:
-        example: Project-A
+        example: PA
         type: string
       description:
         example: Description of the Project A.
@@ -38,6 +38,25 @@ definitions:
       field_name:
         type: string
     type: object
+  response.Project:
+    properties:
+      alias:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      is_active:
+        type: boolean
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
 info:
   contact:
     email: fss30@aluno.ifal.edu.br
@@ -47,6 +66,50 @@ info:
   version: "1.0"
 paths:
   /projects:
+    get:
+      description: Rota que permite a listagem dos projetos.
+      operationId: Project.List
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Requisição realizada com sucesso.
+          schema:
+            items:
+              $ref: '#/definitions/response.Project'
+            type: array
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Listar projetos
+      tags:
+      - Projetos
     post:
       consumes:
       - application/json
@@ -65,9 +128,7 @@ paths:
         "201":
           description: Requisição realizada com sucesso.
           schema:
-            items:
-              $ref: '#/definitions/response.ID'
-            type: array
+            $ref: '#/definitions/response.ID'
         "400":
           description: Requisição mal formulada.
           schema:

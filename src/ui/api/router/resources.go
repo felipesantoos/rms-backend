@@ -19,4 +19,5 @@ func NewProjectRouter() Router {
 func (this *projectRouter) Load(apiGroup *echo.Group) {
 	projectGroup := apiGroup.Group("/projects")
 	projectGroup.POST("", this.projectHandler.Create)
+	projectGroup.GET("", this.projectHandler.List)
 }

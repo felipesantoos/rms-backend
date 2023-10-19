@@ -79,7 +79,7 @@ func (this *builder) WithUpdatedAt(updatedAt time.Time) *builder {
 	return this
 }
 
-func (this *builder) WithDeletedAt(deletedAt time.Time) *builder {
+func (this *builder) WithDeletedAt(deletedAt *time.Time) *builder {
 	this.project.deletedAt = deletedAt
 	return this
 }

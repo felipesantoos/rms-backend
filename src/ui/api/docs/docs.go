@@ -19,6 +19,70 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/projects": {
+            "get": {
+                "description": "Rota que permite a listagem dos projetos.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Projetos"
+                ],
+                "summary": "Listar projetos",
+                "operationId": "Project.List",
+                "responses": {
+                    "201": {
+                        "description": "Requisição realizada com sucesso.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.Project"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição mal formulada.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Acesso negado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Recurso não encontrado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "422": {
+                        "description": "Ocorreu um erro de validação de dados. Vefique os valores, tipos e formatos de dados enviados.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Ocorreu um erro inesperado. Por favor, contate o suporte.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "503": {
+                        "description": "A base de dados está temporariamente indisponível.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Rota que permite o cadastro de um projeto.",
                 "consumes": [
@@ -47,10 +111,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Requisição realizada com sucesso.",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/response.ID"
-                            }
+                            "$ref": "#/definitions/response.ID"
                         }
                     },
                     "400": {
@@ -105,7 +166,7 @@ const docTemplate = `{
             "properties": {
                 "alias": {
                     "type": "string",
-                    "example": "Project-A"
+                    "example": "PA"
                 },
                 "description": {
                     "type": "string",
@@ -153,6 +214,35 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "field_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "response.Project": {
+            "type": "object",
+            "properties": {
+                "alias": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }

@@ -15,7 +15,7 @@ type Project interface {
 	IsActive() bool
 	CreatedAt() time.Time
 	UpdatedAt() time.Time
-	DeletedAt() time.Time
+	DeletedAt() *time.Time
 
 	SetID(uuid.UUID)
 	SetName(string)
@@ -24,7 +24,7 @@ type Project interface {
 	SetIsActive(bool)
 	SetCreatedAt(time.Time)
 	SetUpdatedAt(time.Time)
-	SetDeletedAt(time.Time)
+	SetDeletedAt(*time.Time)
 }
 
 type project struct {
@@ -35,7 +35,7 @@ type project struct {
 	isActive    bool
 	createdAt   time.Time
 	updatedAt   time.Time
-	deletedAt   time.Time
+	deletedAt   *time.Time
 }
 
 func (this *project) ID() uuid.UUID {
@@ -66,7 +66,7 @@ func (this *project) UpdatedAt() time.Time {
 	return this.updatedAt
 }
 
-func (this *project) DeletedAt() time.Time {
+func (this *project) DeletedAt() *time.Time {
 	return this.deletedAt
 }
 
@@ -98,6 +98,6 @@ func (this *project) SetUpdatedAt(updatedAt time.Time) {
 	this.updatedAt = updatedAt
 }
 
-func (this *project) SetDeletedAt(deletedAt time.Time) {
+func (this *project) SetDeletedAt(deletedAt *time.Time) {
 	this.deletedAt = deletedAt
 }

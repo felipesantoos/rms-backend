@@ -11,6 +11,10 @@ import (
 
 type ProjectHandlers interface {
 	Create(echo.Context) error
+	List(echo.Context) error
+	Get(echo.Context) error
+	Update(echo.Context) error
+	Delete(echo.Context) error
 }
 
 type projectHandlers struct {
@@ -29,7 +33,7 @@ func NewResourcesHandler(projectServices primary.IProjectServices) ProjectHandle
 // @Accept json
 // @Param json body request.Project true "JSON com todos os dados necessários para se cadastrar um projeto."
 // @Produce json
-// @Success 201 {array} response.ID "Requisição realizada com sucesso."
+// @Success 201 {object} response.ID "Requisição realizada com sucesso."
 // @Failure 400 {object} response.ErrorMessage "Requisição mal formulada."
 // @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
 // @Failure 403 {object} response.ErrorMessage "Acesso negado."
@@ -53,4 +57,42 @@ func (this *projectHandlers) Create(ctx echo.Context) error {
 		return responseFromError(err)
 	}
 	return ctx.JSON(http.StatusCreated, response.IDBuilder().FromUUID(*id))
+}
+
+// List
+// @ID Project.List
+// @Summary Listar projetos
+// @Description Rota que permite a listagem dos projetos.
+// @Tags Projetos
+// @Produce json
+// @Success 200 {array} response.Project "Requisição realizada com sucesso."
+// @Failure 400 {object} response.ErrorMessage "Requisição mal formulada."
+// @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
+// @Failure 403 {object} response.ErrorMessage "Acesso negado."
+// @Failure 404 {object} response.ErrorMessage "Recurso não encontrado."
+// @Failure 422 {object} response.ErrorMessage "Ocorreu um erro de validação de dados. Vefique os valores, tipos e formatos de dados enviados."
+// @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado. Por favor, contate o suporte."
+// @Failure 503 {object} response.ErrorMessage "A base de dados está temporariamente indisponível."
+// @Router /projects [get]
+func (this *projectHandlers) List(ctx echo.Context) error {
+	projects, err := this.projectServices.List()
+	if err != nil {
+		return responseFromError(err)
+	}
+	return ctx.JSON(http.StatusOK, response.ProjectBuilder().BuildFromDomainList(projects))
+}
+
+func (this *projectHandlers) Get(ctx echo.Context) error {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (this *projectHandlers) Update(ctx echo.Context) error {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (this *projectHandlers) Delete(ctx echo.Context) error {
+	//TODO implement me
+	panic("implement me")
 }
