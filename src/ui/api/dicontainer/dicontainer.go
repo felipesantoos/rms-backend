@@ -15,3 +15,13 @@ func PriorityServices() primary.IPriorityServices {
 	priorityRepository := postgres.NewPriorityPostgresRepository()
 	return services.NewPriorityServices(priorityRepository)
 }
+
+func OriginServices() primary.IOriginServices {
+	originRepository := postgres.NewOriginPostgresRepository()
+	return services.NewOriginServices(originRepository)
+}
+
+func TypeServices() primary.ITypeServices {
+	typeRepository := postgres.NewTypePostgresRepository()
+	return services.NewTypeServices(typeRepository)
+}
