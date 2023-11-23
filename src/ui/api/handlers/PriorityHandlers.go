@@ -33,7 +33,7 @@ func NewPriorityHandler(priorityServices primary.IPriorityServices) PriorityHand
 // @Failure 422 {object} response.ErrorMessage "Ocorreu um erro de validação de dados. Vefique os valores, tipos e formatos de dados enviados."
 // @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado. Por favor, contate o suporte."
 // @Failure 503 {object} response.ErrorMessage "A base de dados está temporariamente indisponível."
-// @Router /priorities [get]
+// @Router /resources/priorities [get]
 func (this *priorityHandlers) List(ctx echo.Context) error {
 	priorities, err := this.priorityServices.List()
 	if err != nil {
