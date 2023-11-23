@@ -50,6 +50,21 @@ definitions:
       status_code:
         type: integer
     type: object
+  response.GeneralResources:
+    properties:
+      origins:
+        items:
+          $ref: '#/definitions/response.Origin'
+        type: array
+      priorities:
+        items:
+          $ref: '#/definitions/response.Priority'
+        type: array
+      types:
+        items:
+          $ref: '#/definitions/response.Type'
+        type: array
+    type: object
   response.ID:
     properties:
       id:
@@ -151,96 +166,6 @@ info:
   title: RMS API
   version: "1.0"
 paths:
-  /origins:
-    get:
-      description: Rota que permite a listagem das origens.
-      operationId: Origin.List
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Requisição realizada com sucesso.
-          schema:
-            items:
-              $ref: '#/definitions/response.Origin'
-            type: array
-        "400":
-          description: Requisição mal formulada.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "401":
-          description: Usuário não autorizado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "403":
-          description: Acesso negado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "404":
-          description: Recurso não encontrado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "422":
-          description: Ocorreu um erro de validação de dados. Vefique os valores,
-            tipos e formatos de dados enviados.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "500":
-          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "503":
-          description: A base de dados está temporariamente indisponível.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-      summary: Listar origens
-      tags:
-      - Recursos
-  /priorities:
-    get:
-      description: Rota que permite a listagem das prioridades.
-      operationId: Priority.List
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Requisição realizada com sucesso.
-          schema:
-            items:
-              $ref: '#/definitions/response.Priority'
-            type: array
-        "400":
-          description: Requisição mal formulada.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "401":
-          description: Usuário não autorizado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "403":
-          description: Acesso negado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "404":
-          description: Recurso não encontrado.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "422":
-          description: Ocorreu um erro de validação de dados. Vefique os valores,
-            tipos e formatos de dados enviados.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "500":
-          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-        "503":
-          description: A base de dados está temporariamente indisponível.
-          schema:
-            $ref: '#/definitions/response.ErrorMessage'
-      summary: Listar prioridades
-      tags:
-      - Recursos
   /projects:
     get:
       description: Rota que permite a listagem dos projetos.
@@ -492,6 +417,11 @@ paths:
     get:
       description: Rota que permite a listagem dos requisitos de um projeto.
       operationId: Requirement.List
+      parameters:
+      - description: ID do projeto.
+        in: query
+        name: projectID
+        type: string
       produces:
       - application/json
       responses:
@@ -735,7 +665,142 @@ paths:
       summary: Atualizar requisito
       tags:
       - Requisitos
-  /types:
+  /resources:
+    get:
+      description: Rota que permite a listagem de todos os recursos.
+      operationId: GeneralResources.List
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição realizada com sucesso.
+          schema:
+            items:
+              $ref: '#/definitions/response.GeneralResources'
+            type: array
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Listar todos os recursos
+      tags:
+      - Recursos
+  /resources/origins:
+    get:
+      description: Rota que permite a listagem das origens.
+      operationId: Origin.List
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição realizada com sucesso.
+          schema:
+            items:
+              $ref: '#/definitions/response.Origin'
+            type: array
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Listar origens
+      tags:
+      - Recursos
+  /resources/priorities:
+    get:
+      description: Rota que permite a listagem das prioridades.
+      operationId: Priority.List
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição realizada com sucesso.
+          schema:
+            items:
+              $ref: '#/definitions/response.Priority'
+            type: array
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Listar prioridades
+      tags:
+      - Recursos
+  /resources/types:
     get:
       description: Rota que permite a listagem dos tipos.
       operationId: Type.List

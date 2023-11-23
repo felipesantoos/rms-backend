@@ -7,6 +7,7 @@ import (
 	"rms-backend/src/core/interfaces/primary"
 	"rms-backend/src/core/interfaces/repository"
 	"rms-backend/src/core/logger"
+	"rms-backend/src/core/services/filters"
 )
 
 type requirementServices struct {
@@ -30,8 +31,8 @@ func (this *requirementServices) Create(requirementObject requirement.Requiremen
 	return id, nil
 }
 
-func (this *requirementServices) List() ([]requirement.Requirement, errors.Error) {
-	requirements, err := this.requirementRepository.List()
+func (this *requirementServices) List(requirementFilters filters.RequirementFilters) ([]requirement.Requirement, errors.Error) {
+	requirements, err := this.requirementRepository.List(requirementFilters)
 	if err != nil {
 		return nil, logger.LogCustomError(err)
 	}
