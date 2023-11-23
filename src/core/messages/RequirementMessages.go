@@ -1,0 +1,25 @@
+package messages
+
+const (
+	RequirementID                       = "requirement id"
+	RequirementIDCannotBeEmpty          = "requirement id cannot be empty"
+	RequirementCode                     = "requirement code"
+	RequirementCodeCannotBeEmpty        = "requirement code cannot be empty"
+	RequirementTitle                    = "requirement title"
+	RequirementTitleCannotBeEmpty       = "requirement title cannot be empty"
+	RequirementDescription              = "requirement description"
+	RequirementDescriptionCannotBeEmpty = "requirement description cannot be empty"
+	RequirementUserStory                = "requirement user story"
+	RequirementUserStoryCannotBeEmpty   = "requirement user story cannot be empty"
+	RequirementTypeID                   = "requirement type id"
+	RequirementTypeIDCannotBeEmpty      = "requirement type id cannot be empty"
+	RequirementOriginID                 = "requirement origin id"
+	RequirementOriginIDCannotBeEmpty    = "requirement origin id cannot be empty"
+	RequirementPriorityID               = "requirement priority id"
+	RequirementPriorityIDCannotBeEmpty  = "requirement priority id cannot be empty"
+	RequirementProjectID                = "requirement project id"
+	RequirementProjectIDCannotBeEmpty   = "requirement project id cannot be empty"
+	RequirementCreatedAt                = "requirement creation date and time"
+	RequirementCreatedAtCannotBeEmpty   = "requirement creation date and time cannot be empty"
+	RequirementNotFoundErrorMessage     = "requirement not found"
+)
