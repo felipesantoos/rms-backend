@@ -33,7 +33,7 @@ func NewTypeHandler(typeServices primary.ITypeServices) TypeHandlers {
 // @Failure 422 {object} response.ErrorMessage "Ocorreu um erro de validação de dados. Vefique os valores, tipos e formatos de dados enviados."
 // @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado. Por favor, contate o suporte."
 // @Failure 503 {object} response.ErrorMessage "A base de dados está temporariamente indisponível."
-// @Router /types [get]
+// @Router /resources/types [get]
 func (this *typeHandlers) List(ctx echo.Context) error {
 	types, err := this.typeServices.List()
 	if err != nil {
