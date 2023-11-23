@@ -18,138 +18,6 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/origins": {
-            "get": {
-                "description": "Rota que permite a listagem das origens.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Recursos"
-                ],
-                "summary": "Listar origens",
-                "operationId": "Origin.List",
-                "responses": {
-                    "200": {
-                        "description": "Requisição realizada com sucesso.",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/response.Origin"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Requisição mal formulada.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "401": {
-                        "description": "Usuário não autorizado.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "403": {
-                        "description": "Acesso negado.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "404": {
-                        "description": "Recurso não encontrado.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "422": {
-                        "description": "Ocorreu um erro de validação de dados. Vefique os valores, tipos e formatos de dados enviados.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "500": {
-                        "description": "Ocorreu um erro inesperado. Por favor, contate o suporte.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "503": {
-                        "description": "A base de dados está temporariamente indisponível.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    }
-                }
-            }
-        },
-        "/priorities": {
-            "get": {
-                "description": "Rota que permite a listagem das prioridades.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Recursos"
-                ],
-                "summary": "Listar prioridades",
-                "operationId": "Priority.List",
-                "responses": {
-                    "200": {
-                        "description": "Requisição realizada com sucesso.",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/response.Priority"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Requisição mal formulada.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "401": {
-                        "description": "Usuário não autorizado.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "403": {
-                        "description": "Acesso negado.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "404": {
-                        "description": "Recurso não encontrado.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "422": {
-                        "description": "Ocorreu um erro de validação de dados. Vefique os valores, tipos e formatos de dados enviados.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "500": {
-                        "description": "Ocorreu um erro inesperado. Por favor, contate o suporte.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    },
-                    "503": {
-                        "description": "A base de dados está temporariamente indisponível.",
-                        "schema": {
-                            "$ref": "#/definitions/response.ErrorMessage"
-                        }
-                    }
-                }
-            }
-        },
         "/projects": {
             "get": {
                 "description": "Rota que permite a listagem dos projetos.",
@@ -523,6 +391,14 @@ const docTemplate = `{
                 ],
                 "summary": "Listar requisitos de um projeto",
                 "operationId": "Requirement.List",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID do projeto.",
+                        "name": "projectID",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Requisição realizada com sucesso.",
@@ -874,7 +750,205 @@ const docTemplate = `{
                 }
             }
         },
-        "/types": {
+        "/resources": {
+            "get": {
+                "description": "Rota que permite a listagem de todos os recursos.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Recursos"
+                ],
+                "summary": "Listar todos os recursos",
+                "operationId": "GeneralResources.List",
+                "responses": {
+                    "200": {
+                        "description": "Requisição realizada com sucesso.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.GeneralResources"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição mal formulada.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Acesso negado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Recurso não encontrado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "422": {
+                        "description": "Ocorreu um erro de validação de dados. Vefique os valores, tipos e formatos de dados enviados.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Ocorreu um erro inesperado. Por favor, contate o suporte.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "503": {
+                        "description": "A base de dados está temporariamente indisponível.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/resources/origins": {
+            "get": {
+                "description": "Rota que permite a listagem das origens.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Recursos"
+                ],
+                "summary": "Listar origens",
+                "operationId": "Origin.List",
+                "responses": {
+                    "200": {
+                        "description": "Requisição realizada com sucesso.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.Origin"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição mal formulada.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Acesso negado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Recurso não encontrado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "422": {
+                        "description": "Ocorreu um erro de validação de dados. Vefique os valores, tipos e formatos de dados enviados.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Ocorreu um erro inesperado. Por favor, contate o suporte.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "503": {
+                        "description": "A base de dados está temporariamente indisponível.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/resources/priorities": {
+            "get": {
+                "description": "Rota que permite a listagem das prioridades.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Recursos"
+                ],
+                "summary": "Listar prioridades",
+                "operationId": "Priority.List",
+                "responses": {
+                    "200": {
+                        "description": "Requisição realizada com sucesso.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/response.Priority"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição mal formulada.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Acesso negado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Recurso não encontrado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "422": {
+                        "description": "Ocorreu um erro de validação de dados. Vefique os valores, tipos e formatos de dados enviados.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Ocorreu um erro inesperado. Por favor, contate o suporte.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "503": {
+                        "description": "A base de dados está temporariamente indisponível.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/resources/types": {
             "get": {
                 "description": "Rota que permite a listagem dos tipos.",
                 "produces": [
@@ -1010,6 +1084,29 @@ const docTemplate = `{
                 },
                 "status_code": {
                     "type": "integer"
+                }
+            }
+        },
+        "response.GeneralResources": {
+            "type": "object",
+            "properties": {
+                "origins": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.Origin"
+                    }
+                },
+                "priorities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.Priority"
+                    }
+                },
+                "types": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/response.Type"
+                    }
                 }
             }
         },

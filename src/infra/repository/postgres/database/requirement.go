@@ -106,6 +106,7 @@ func (requirementQuery) All() string {
 			updated_at AS requirement_updated_at
 		FROM requirement
 		WHERE deleted_at IS NULL
+			AND project_id = COALESCE($1, project_id)
 		ORDER BY created_at DESC
 	`
 }

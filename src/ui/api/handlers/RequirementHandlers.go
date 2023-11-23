@@ -1,12 +1,15 @@
 package handlers
 
 import (
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"rms-backend/src/core/domain/errors"
 	primary "rms-backend/src/core/interfaces/primary"
+	"rms-backend/src/core/services/filters"
 	"rms-backend/src/ui/api/handlers/dto/request"
 	"rms-backend/src/ui/api/handlers/dto/response"
+	"rms-backend/src/ui/api/handlers/utils/checkers"
 	"rms-backend/src/ui/api/handlers/utils/params"
 )
 
@@ -65,6 +68,7 @@ func (this *requirementHandlers) Create(ctx echo.Context) error {
 // @Summary Listar requisitos de um projeto
 // @Description Rota que permite a listagem dos requisitos de um projeto.
 // @Tags Requisitos
+// @Param projectID query string false "ID do projeto."
 // @Produce json
 // @Success 200 {array} response.Requirement "Requisição realizada com sucesso."
 // @Failure 400 {object} response.ErrorMessage "Requisição mal formulada."
@@ -76,7 +80,16 @@ func (this *requirementHandlers) Create(ctx echo.Context) error {
 // @Failure 503 {object} response.ErrorMessage "A base de dados está temporariamente indisponível."
 // @Router /requirements [get]
 func (this *requirementHandlers) List(ctx echo.Context) error {
-	requirements, err := this.requirementServices.List()
+	var projectID *uuid.UUID
+	if !checkers.IsEmpty(ctx.QueryParam(params.ProjectID)) {
+		aux, err := getUUIDQueryParamValue(ctx, params.ProjectID)
+		if err != nil {
+			return responseFromError(err)
+		}
+		projectID = aux
+	}
+	requirementFilters := filters.RequirementFilters{ProjectID: projectID}
+	requirements, err := this.requirementServices.List(requirementFilters)
 	if err != nil {
 		return responseFromError(err)
 	}

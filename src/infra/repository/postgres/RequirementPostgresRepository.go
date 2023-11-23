@@ -7,6 +7,7 @@ import (
 	"rms-backend/src/core/interfaces/repository"
 	"rms-backend/src/core/logger"
 	"rms-backend/src/core/messages"
+	"rms-backend/src/core/services/filters"
 	"rms-backend/src/infra/repository/postgres/database"
 	"rms-backend/src/infra/repository/postgres/queryObject"
 )
@@ -51,8 +52,8 @@ func (*requirementPostgresRepository) Create(requirementObject requirement.Requi
 	return &requirementID, nil
 }
 
-func (this *requirementPostgresRepository) List() ([]requirement.Requirement, errors.Error) {
-	rows, err := database.Queryx(database.Requirement().Query().All())
+func (this *requirementPostgresRepository) List(requirementFilters filters.RequirementFilters) ([]requirement.Requirement, errors.Error) {
+	rows, err := database.Queryx(database.Requirement().Query().All(), requirementFilters.ProjectID)
 	if err != nil {
 		return nil, logger.LogCustomError(err)
 	}
