@@ -95,6 +95,7 @@ func (projectQuery) All() string {
 			project.updated_at AS project_updated_at,
 			project.deleted_at AS project_deleted_at
 		FROM project
+		WHERE deleted_at IS NULL
 	`
 }
 
@@ -111,5 +112,6 @@ func (projectQuery) ByID() string {
 			project.deleted_at AS project_deleted_at
 		FROM project
 		WHERE project.id = $1
+			AND deleted_at IS NULL
 	`
 }
