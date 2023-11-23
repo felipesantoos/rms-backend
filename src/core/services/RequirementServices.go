@@ -19,11 +19,12 @@ func NewRequirementServices(requirementRepository repository.IRequirementReposit
 }
 
 func (this *requirementServices) Create(requirementObject requirement.Requirement) (*uuid.UUID, errors.Error) {
-	lastCode, err := this.requirementRepository.GetLastCodeByProject(requirementObject.ProjectID())
-	if err != nil {
-		return nil, logger.LogCustomError(err)
+	var lastCode int
+	aux, err := this.requirementRepository.GetLastCodeByProject(requirementObject.ProjectID())
+	if aux != nil {
+		lastCode = *aux
 	}
-	requirementObject.SetCode(*lastCode + 1)
+	requirementObject.SetCode(lastCode + 1)
 	id, err := this.requirementRepository.Create(requirementObject)
 	if err != nil {
 		return nil, logger.LogCustomError(err)
