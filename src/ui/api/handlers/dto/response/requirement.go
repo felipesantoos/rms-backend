@@ -8,6 +8,7 @@ import (
 
 type Requirement struct {
 	ID          uuid.UUID `json:"id"`
+	Code        int       `json:"code"`
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
 	UserStory   string    `json:"user_story"`
@@ -28,6 +29,7 @@ func RequirementBuilder() *requirementBuilder {
 func (*requirementBuilder) BuildFromDomain(data requirement.Requirement) Requirement {
 	return Requirement{
 		ID:          data.ID(),
+		Code:        data.Code(),
 		Title:       data.Title(),
 		Description: data.Description(),
 		UserStory:   data.UserStory(),
