@@ -7,25 +7,25 @@ import (
 	"rms-backend/src/ui/api/handlers/dto/response"
 )
 
-type PriorityHandlers interface {
+type OriginHandlers interface {
 	List(echo.Context) error
 }
 
-type priorityHandlers struct {
-	priorityServices primary.IPriorityServices
+type originHandlers struct {
+	originServices primary.IOriginServices
 }
 
-func NewPriorityHandler(priorityServices primary.IPriorityServices) PriorityHandlers {
-	return &priorityHandlers{priorityServices: priorityServices}
+func NewOriginHandler(originServices primary.IOriginServices) OriginHandlers {
+	return &originHandlers{originServices: originServices}
 }
 
 // List
-// @ID Priority.List
-// @Summary Listar prioridades
-// @Description Rota que permite a listagem das prioridades.
+// @ID Origin.List
+// @Summary Listar origens
+// @Description Rota que permite a listagem das origens.
 // @Tags Recursos
 // @Produce json
-// @Success 200 {array} response.Priority "Requisição realizada com sucesso."
+// @Success 200 {array} response.Origin "Requisição realizada com sucesso."
 // @Failure 400 {object} response.ErrorMessage "Requisição mal formulada."
 // @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
 // @Failure 403 {object} response.ErrorMessage "Acesso negado."
@@ -33,11 +33,11 @@ func NewPriorityHandler(priorityServices primary.IPriorityServices) PriorityHand
 // @Failure 422 {object} response.ErrorMessage "Ocorreu um erro de validação de dados. Vefique os valores, tipos e formatos de dados enviados."
 // @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado. Por favor, contate o suporte."
 // @Failure 503 {object} response.ErrorMessage "A base de dados está temporariamente indisponível."
-// @Router /priorities [get]
-func (this *priorityHandlers) List(ctx echo.Context) error {
-	priorities, err := this.priorityServices.List()
+// @Router /origins [get]
+func (this *originHandlers) List(ctx echo.Context) error {
+	origins, err := this.originServices.List()
 	if err != nil {
 		return responseFromError(err)
 	}
-	return ctx.JSON(http.StatusOK, response.PriorityBuilder().BuildFromDomainList(priorities))
+	return ctx.JSON(http.StatusOK, response.OriginBuilder().BuildFromDomainList(origins))
 }
