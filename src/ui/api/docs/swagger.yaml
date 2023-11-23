@@ -15,6 +15,30 @@ definitions:
         example: Project A
         type: string
     type: object
+  request.Requirement:
+    properties:
+      description:
+        example: Description of the Requirement A.
+        type: string
+      origin_id:
+        example: c1d8e2a4-88ea-43e6-bb90-5711b34b7a8f
+        type: string
+      priority_id:
+        example: f3ab3bf0-76f1-4ad7-8c3b-1f93eac9d4a0
+        type: string
+      project_id:
+        example: 38b27910-e17f-4b8d-bc3f-85ca1c76e3db
+        type: string
+      title:
+        example: Requirement A
+        type: string
+      type_id:
+        example: 9e57a3e7-8be3-4c0e-8a0d-6ae7cde4b87c
+        type: string
+      user_story:
+        example: User story of the Requirement A.
+        type: string
+    type: object
   response.ErrorMessage:
     properties:
       invalid_fields:
@@ -36,6 +60,19 @@ definitions:
       description:
         type: string
       field_name:
+        type: string
+    type: object
+  response.Origin:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updated_at:
         type: string
     type: object
   response.Priority:
@@ -70,6 +107,42 @@ definitions:
       updated_at:
         type: string
     type: object
+  response.Requirement:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      origin_id:
+        type: string
+      priority_id:
+        type: string
+      project_id:
+        type: string
+      title:
+        type: string
+      type_id:
+        type: string
+      updated_at:
+        type: string
+      user_story:
+        type: string
+    type: object
+  response.Type:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+    type: object
 info:
   contact:
     email: fss30@aluno.ifal.edu.br
@@ -78,6 +151,51 @@ info:
   title: RMS API
   version: "1.0"
 paths:
+  /origins:
+    get:
+      description: Rota que permite a listagem das origens.
+      operationId: Origin.List
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição realizada com sucesso.
+          schema:
+            items:
+              $ref: '#/definitions/response.Origin'
+            type: array
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Listar origens
+      tags:
+      - Recursos
   /priorities:
     get:
       description: Rota que permite a listagem das prioridades.
@@ -122,7 +240,7 @@ paths:
             $ref: '#/definitions/response.ErrorMessage'
       summary: Listar prioridades
       tags:
-      - Prioridades
+      - Recursos
   /projects:
     get:
       description: Rota que permite a listagem dos projetos.
@@ -370,4 +488,296 @@ paths:
       summary: Atualizar projeto
       tags:
       - Projetos
+  /requirements:
+    get:
+      description: Rota que permite a listagem dos requisitos de um projeto.
+      operationId: Requirement.List
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição realizada com sucesso.
+          schema:
+            items:
+              $ref: '#/definitions/response.Requirement'
+            type: array
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Listar requisitos de um projeto
+      tags:
+      - Requisitos
+    post:
+      consumes:
+      - application/json
+      description: Rota que permite o cadastro de um requisito de um projeto.
+      operationId: Requirement.Create
+      parameters:
+      - description: JSON com todos os dados necessários para se cadastrar um requisito.
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/request.Requirement'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Requisição realizada com sucesso.
+          schema:
+            $ref: '#/definitions/response.ID'
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Cadastrar requisito
+      tags:
+      - Requisitos
+  /requirements/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Rota que permite a deleção de um requisito de um projeto.
+      operationId: Requirement.Delete
+      parameters:
+      - description: ID do requisito.
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Requisição realizada com sucesso.
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Deletar requisito de um projeto
+      tags:
+      - Requisitos
+    get:
+      description: Rota que permite a buscar dos detalhes de um requisito pelo ID.
+      operationId: Requirement.Get
+      parameters:
+      - description: ID do requisito.
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição realizada com sucesso.
+          schema:
+            $ref: '#/definitions/response.Requirement'
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Buscar detalhes de um projeto pelo ID
+      tags:
+      - Requisitos
+    put:
+      consumes:
+      - application/json
+      description: Rota que permite a atualização de um requisito de um projeto.
+      operationId: Requirement.Update
+      parameters:
+      - description: ID do requisito.
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: JSON com todos os dados necessários para se atualizar um projeto.
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/request.Requirement'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Requisição realizada com sucesso.
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Atualizar requisito
+      tags:
+      - Requisitos
+  /types:
+    get:
+      description: Rota que permite a listagem dos tipos.
+      operationId: Type.List
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição realizada com sucesso.
+          schema:
+            items:
+              $ref: '#/definitions/response.Type'
+            type: array
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Listar tipos
+      tags:
+      - Recursos
 swagger: "2.0"

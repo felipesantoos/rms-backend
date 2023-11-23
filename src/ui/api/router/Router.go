@@ -21,6 +21,7 @@ func (this *router) Load(group *echo.Group) {
 		this.LoadDocs(group)
 	}
 	NewProjectRouter().Load(group)
+	NewRequirementRouter().Load(group)
 	NewPriorityRouter().Load(group)
 	NewOriginRouter().Load(group)
 	NewTypeRouter().Load(group)
