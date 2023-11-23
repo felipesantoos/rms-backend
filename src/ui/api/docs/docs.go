@@ -1201,6 +1201,9 @@ const docTemplate = `{
         "response.Requirement": {
             "type": "object",
             "properties": {
+                "code": {
+                    "type": "integer"
+                },
                 "created_at": {
                     "type": "string"
                 },
