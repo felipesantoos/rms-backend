@@ -1269,6 +1269,8 @@ var SwaggerInfo = &swag.Spec{
 	Description:      "RMS backend API",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
+	LeftDelim:        "{{",
+	RightDelim:       "}}",
 }
 
 func init() {
