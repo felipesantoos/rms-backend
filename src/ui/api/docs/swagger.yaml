@@ -15,6 +15,12 @@ definitions:
         example: Project A
         type: string
     type: object
+  request.ProjectContainsUser:
+    properties:
+      user_email:
+        example: collaborator@gmail.com
+        type: string
+    type: object
   request.Requirement:
     properties:
       description:
@@ -122,6 +128,23 @@ definitions:
       updated_at:
         type: string
     type: object
+  response.ProjectContainsUser:
+    properties:
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      updated_at:
+        type: string
+      user_email:
+        type: string
+      user_first_name:
+        type: string
+      user_id:
+        type: string
+      user_last_name:
+        type: string
+    type: object
   response.Requirement:
     properties:
       code:
@@ -168,6 +191,167 @@ info:
   title: RMS API
   version: "1.0"
 paths:
+  /collaborators/{projectID}:
+    get:
+      description: Rota que permite a listagem dos colaboradores.
+      operationId: ProjectContainsUser.List
+      parameters:
+      - description: ID do projeto.
+        in: path
+        name: projectID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Requisição realizada com sucesso.
+          schema:
+            items:
+              $ref: '#/definitions/response.ProjectContainsUser'
+            type: array
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Listar colaboradores
+      tags:
+      - Colaboradores
+    post:
+      consumes:
+      - application/json
+      description: Rota que permite a adição de um colaborador ao projeto.
+      operationId: ProjectContainsUser.Create
+      parameters:
+      - description: ID do projeto.
+        in: path
+        name: projectID
+        required: true
+        type: string
+      - description: JSON com todos os dados necessários para adicionar um colaborador.
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/request.ProjectContainsUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Requisição realizada com sucesso.
+          schema:
+            $ref: '#/definitions/response.ID'
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Adicionar colaborador
+      tags:
+      - Colaboradores
+  /collaborators/{projectID}/{userID}:
+    delete:
+      consumes:
+      - application/json
+      description: Rota que permite a deleção de um colaborador.
+      operationId: ProjectContainsUser.Delete
+      parameters:
+      - description: ID do projeto.
+        in: path
+        name: projectID
+        required: true
+        type: string
+      - description: ID do usuário colaborador.
+        in: path
+        name: userID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Requisição realizada com sucesso.
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "404":
+          description: Recurso não encontrado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Ocorreu um erro de validação de dados. Vefique os valores,
+            tipos e formatos de dados enviados.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado. Por favor, contate o suporte.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados está temporariamente indisponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Deletar colaborador
+      tags:
+      - Colaboradores
   /projects:
     get:
       description: Rota que permite a listagem dos projetos.
