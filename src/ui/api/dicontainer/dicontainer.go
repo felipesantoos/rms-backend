@@ -30,3 +30,13 @@ func TypeServices() primary.ITypeServices {
 	typeRepository := postgres.NewTypePostgresRepository()
 	return services.NewTypeServices(typeRepository)
 }
+
+func UserServices() primary.IUserServices {
+	userRepository := postgres.NewUserPostgresRepository()
+	return services.NewUserServices(userRepository)
+}
+
+func ProjectContainsUserServices() primary.IProjectContainsUserServices {
+	projectContainsUserRepository := postgres.NewProjectContainsUserPostgresRepository()
+	return services.NewProjectContainsUserServices(projectContainsUserRepository)
+}

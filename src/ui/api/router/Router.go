@@ -23,6 +23,7 @@ func (this *router) Load(group *echo.Group) {
 	NewProjectRouter().Load(group)
 	NewRequirementRouter().Load(group)
 	NewResourceRouter().Load(group)
+	NewProjectContainsUserRouter().Load(group)
 }
 
 func (this *router) LoadDocs(group *echo.Group) {
