@@ -43,14 +43,14 @@ func (user) Command() IUserCommand {
 
 func (userCommand) Create() string {
 	return `
-		
+		INSERT INTO account (email, first_name, last_name, password, salt)
+		VALUES ($1, $2, $3, $4, $5)
+		RETURNING id
 	`
 }
 
 func (userCommand) Delete() string {
-	return `
-		
-	`
+	return empty
 }
 
 // Query

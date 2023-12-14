@@ -19,4 +19,5 @@ func NewAuthRouter() Router {
 func (this *authRouter) Load(apiGroup *echo.Group) {
 	authGroup := apiGroup.Group("/auth")
 	authGroup.POST("/login", this.authHandler.Login)
+	authGroup.POST("/sign-up", this.authHandler.SignUp)
 }

@@ -59,7 +59,7 @@ func (this *user) FirstName() string {
 }
 
 func (this *user) LastName() string {
-	return this.firstName
+	return this.lastName
 }
 
 func (this *user) Password() string {

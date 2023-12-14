@@ -3,8 +3,10 @@ definitions:
   request.LoginDTO:
     properties:
       email:
+        example: john@gmail.com
         type: string
       password:
+        example: Test1234!
         type: string
     type: object
   request.Project:
@@ -50,6 +52,21 @@ definitions:
         type: string
       user_story:
         example: User story of the Requirement A.
+        type: string
+    type: object
+  request.SignUpDTO:
+    properties:
+      email:
+        example: jose@gmail.com
+        type: string
+      first_name:
+        example: José
+        type: string
+      last_name:
+        example: Santos
+        type: string
+      password:
+        example: Test1234!
         type: string
     type: object
   response.Authorization:
@@ -224,6 +241,54 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/request.LoginDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Requisição realizada com sucesso.
+          schema:
+            $ref: '#/definitions/response.Authorization'
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Algum dado informado não pôde ser processado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados não está disponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Fazer login no sistema
+      tags:
+      - Rotas de autenticação
+  /auth/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: Rota que permite o cadastro de um novo usuário.
+      operationId: SignUp
+      parameters:
+      - description: JSON com todos os dados necessários para que o cadastro seja
+          realizado.
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/request.SignUpDTO'
       produces:
       - application/json
       responses:
@@ -513,6 +578,8 @@ paths:
           description: A base de dados está temporariamente indisponível.
           schema:
             $ref: '#/definitions/response.ErrorMessage'
+      security:
+      - bearerAuth: []
       summary: Listar projetos
       tags:
       - Projetos
@@ -1150,4 +1217,9 @@ paths:
       summary: Listar tipos
       tags:
       - Recursos
+securityDefinitions:
+  bearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

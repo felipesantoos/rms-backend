@@ -7,6 +7,7 @@ import (
 	"rms-backend/src/core/interfaces/repository"
 	"rms-backend/src/core/logger"
 	"rms-backend/src/core/messages"
+	"rms-backend/src/core/services/filters"
 	"rms-backend/src/infra/repository/postgres/database"
 	"rms-backend/src/infra/repository/postgres/queryObject"
 )
@@ -47,8 +48,8 @@ func (*projectPostgresRepository) Create(projectObject project.Project) (*uuid.U
 	return &projectID, nil
 }
 
-func (this *projectPostgresRepository) List() ([]project.Project, errors.Error) {
-	rows, err := database.Queryx(database.Project().Query().All())
+func (this *projectPostgresRepository) List(projectFilters filters.ProjectFilters) ([]project.Project, errors.Error) {
+	rows, err := database.Queryx(database.Project().Query().All(), *projectFilters.UserID)
 	if err != nil {
 		return nil, logger.LogCustomError(err)
 	}

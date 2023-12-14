@@ -89,6 +89,77 @@ const docTemplate = `{
                 }
             }
         },
+        "/auth/sign-up": {
+            "post": {
+                "description": "Rota que permite o cadastro de um novo usuário.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Rotas de autenticação"
+                ],
+                "summary": "Fazer login no sistema",
+                "operationId": "SignUp",
+                "parameters": [
+                    {
+                        "description": "JSON com todos os dados necessários para que o cadastro seja realizado.",
+                        "name": "json",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.SignUpDTO"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Requisição realizada com sucesso.",
+                        "schema": {
+                            "$ref": "#/definitions/response.Authorization"
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição mal formulada.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "401": {
+                        "description": "Usuário não autorizado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "403": {
+                        "description": "Acesso negado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "422": {
+                        "description": "Algum dado informado não pôde ser processado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "500": {
+                        "description": "Ocorreu um erro inesperado.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    },
+                    "503": {
+                        "description": "A base de dados não está disponível.",
+                        "schema": {
+                            "$ref": "#/definitions/response.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
         "/collaborators/possible-collaborators/{projectID}": {
             "get": {
                 "description": "Rota que permite a listagem dos usuários que podem ser adicionados como colaboradores.",
@@ -402,6 +473,11 @@ const docTemplate = `{
         },
         "/projects": {
             "get": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "description": "Rota que permite a listagem dos projetos.",
                 "produces": [
                     "application/json"
@@ -1402,10 +1478,12 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "john@gmail.com"
                 },
                 "password": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Test1234!"
                 }
             }
         },
@@ -1469,6 +1547,27 @@ const docTemplate = `{
                 "user_story": {
                     "type": "string",
                     "example": "User story of the Requirement A."
+                }
+            }
+        },
+        "request.SignUpDTO": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "jose@gmail.com"
+                },
+                "first_name": {
+                    "type": "string",
+                    "example": "José"
+                },
+                "last_name": {
+                    "type": "string",
+                    "example": "Santos"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "Test1234!"
                 }
             }
         },
@@ -1691,6 +1790,13 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "bearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

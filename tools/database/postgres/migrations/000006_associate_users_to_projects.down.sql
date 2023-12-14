@@ -1,0 +1,1 @@
+TRUNCATE project_contains_user RESTART IDENTITY CASCADE;

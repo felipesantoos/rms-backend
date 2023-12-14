@@ -1,6 +1,7 @@
 package postgres
 
 import (
+	"github.com/google/uuid"
 	"rms-backend/src/core/domain/credentials"
 	"rms-backend/src/core/domain/errors"
 	"rms-backend/src/core/domain/user"
@@ -32,4 +33,35 @@ func (instance authPostgresRepository) Login(credentials credentials.Credentials
 		return nil, logger.LogCustomError(err)
 	}
 	return userObject, nil
+}
+
+func (instance authPostgresRepository) SignUp(_user user.User) (*uuid.UUID, errors.Error) {
+	transaction, err := database.BeginTransaction()
+	if err != nil {
+		return nil, logger.LogCustomError(err)
+	}
+	defer transaction.CloseConn()
+	id, err := txQueryRowReturningID(
+		transaction,
+		database.User().Command().Create(),
+		_user.Email(),
+		_user.FirstName(),
+		_user.LastName(),
+		_user.Password(),
+		_user.Salt(),
+	)
+	if err != nil {
+		return nil, logger.LogCustomError(err)
+	}
+	userID, conversionError := uuid.Parse(id)
+	if conversionError != nil {
+		logger.LogNativeError(conversionError)
+		return nil, logger.LogCustomError(errors.NewUnexpected())
+	}
+	err = transaction.Commit()
+	if err != nil {
+		logger.LogCustomError(err)
+		return nil, logger.LogCustomError(errors.NewUnexpected())
+	}
+	return &userID, nil
 }
