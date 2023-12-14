@@ -95,7 +95,9 @@ func (projectQuery) All() string {
 			project.updated_at AS project_updated_at,
 			project.deleted_at AS project_deleted_at
 		FROM project
-		WHERE deleted_at IS NULL
+			INNER JOIN project_contains_user ON project_contains_user.project_id = project.id
+			INNER JOIN account ON account.id = project_contains_user.user_id
+		WHERE project.deleted_at IS NULL AND account.id = $1
 	`
 }
 

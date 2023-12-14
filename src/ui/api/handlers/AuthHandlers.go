@@ -4,6 +4,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"rms-backend/src/core/domain/credentials"
+	"rms-backend/src/core/domain/user"
 	primary "rms-backend/src/core/interfaces/primary"
 	"rms-backend/src/ui/api/handlers/dto/request"
 	"rms-backend/src/ui/api/handlers/dto/response"
@@ -11,6 +12,7 @@ import (
 
 type AuthHandlers interface {
 	Login(echo.Context) error
+	SignUp(echo.Context) error
 }
 
 type authHandlers struct {
@@ -55,6 +57,40 @@ func (instance authHandlers) Login(context echo.Context) error {
 		return responseFromError(err)
 	}
 	_authorization, err := instance.authServices.Login(_credentials)
+	if err != nil {
+		return responseFromError(err)
+	}
+	return context.JSON(http.StatusCreated, response.AuthorizationBuilder().BuildFromDomain(_authorization))
+}
+
+// SignUp
+// @ID SignUp
+// @Summary Fazer login no sistema
+// @Tags Rotas de autenticação
+// @Description Rota que permite o cadastro de um novo usuário.
+// @Accept json
+// @Produce json
+// @Param json body request.SignUpDTO true "JSON com todos os dados necessários para que o cadastro seja realizado."
+// @Success 201 {object} response.Authorization "Requisição realizada com sucesso."
+// @Failure 400 {object} response.ErrorMessage "Requisição mal formulada."
+// @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
+// @Failure 403 {object} response.ErrorMessage "Acesso negado."
+// @Failure 422 {object} response.ErrorMessage "Algum dado informado não pôde ser processado."
+// @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado."
+// @Failure 503 {object} response.ErrorMessage "A base de dados não está disponível."
+// @Router /auth/sign-up [post]
+func (instance authHandlers) SignUp(context echo.Context) error {
+	var signUpDTO request.SignUpDTO
+	bindError := context.Bind(&signUpDTO)
+	if bindError != nil {
+		return badRequestErrorWithMessage("Não foi possível processar a solicitação")
+	}
+	_user, err := user.NewBuilder().WithEmail(signUpDTO.Email).WithFirstName(signUpDTO.FirstName).
+		WithLastName(signUpDTO.LastName).WithPassword(signUpDTO.Password).Build()
+	if err != nil {
+		return responseFromError(err)
+	}
+	_authorization, err := instance.authServices.SignUp(_user)
 	if err != nil {
 		return responseFromError(err)
 	}

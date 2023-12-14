@@ -5,9 +5,11 @@ import (
 	"net/http"
 	"rms-backend/src/core/domain/errors"
 	primary "rms-backend/src/core/interfaces/primary"
+	"rms-backend/src/core/services/filters"
 	"rms-backend/src/ui/api/handlers/dto/request"
 	"rms-backend/src/ui/api/handlers/dto/response"
 	"rms-backend/src/ui/api/handlers/utils/params"
+	"rms-backend/src/ui/api/handlers/utils/token"
 )
 
 type ProjectHandlers interface {
@@ -65,6 +67,7 @@ func (this *projectHandlers) Create(ctx echo.Context) error {
 // @Summary Listar projetos
 // @Description Rota que permite a listagem dos projetos.
 // @Tags Projetos
+// @Security bearerAuth
 // @Produce json
 // @Success 200 {array} response.Project "Requisição realizada com sucesso."
 // @Failure 400 {object} response.ErrorMessage "Requisição mal formulada."
@@ -76,7 +79,12 @@ func (this *projectHandlers) Create(ctx echo.Context) error {
 // @Failure 503 {object} response.ErrorMessage "A base de dados está temporariamente indisponível."
 // @Router /projects [get]
 func (this *projectHandlers) List(ctx echo.Context) error {
-	projects, err := this.projectServices.List()
+	userID, err := token.GetAccountIDFromAuthorization(ctx)
+	if err != nil {
+		return responseFromError(err)
+	}
+	projectFilters := filters.ProjectFilters{UserID: userID}
+	projects, err := this.projectServices.List(projectFilters)
 	if err != nil {
 		return responseFromError(err)
 	}

@@ -7,6 +7,7 @@ import (
 	"rms-backend/src/core/interfaces/primary"
 	"rms-backend/src/core/interfaces/repository"
 	"rms-backend/src/core/logger"
+	"rms-backend/src/core/services/filters"
 )
 
 type projectServices struct {
@@ -25,8 +26,8 @@ func (this *projectServices) Create(projectObject project.Project) (*uuid.UUID, 
 	return id, nil
 }
 
-func (this *projectServices) List() ([]project.Project, errors.Error) {
-	projects, err := this.projectRepository.List()
+func (this *projectServices) List(projectFilters filters.ProjectFilters) ([]project.Project, errors.Error) {
+	projects, err := this.projectRepository.List(projectFilters)
 	if err != nil {
 		return nil, logger.LogCustomError(err)
 	}

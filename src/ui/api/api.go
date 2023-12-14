@@ -30,6 +30,9 @@ type api struct {
 // @contact.name Felipe da Silva Santos
 // @contact.email fss30@aluno.ifal.edu.br
 // @BasePath /api
+// @securityDefinitions.apikey bearerAuth
+// @in header
+// @name Authorization
 func NewAPI(host string, port int) API {
 	server := echo.New()
 	return &api{host, port, server}
