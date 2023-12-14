@@ -20,6 +20,8 @@ func NewUserFromMapRows(data map[string]interface{}) (user.User, errors.Error) {
 		return nil, logger.LogCustomError(errors.NewUnexpected())
 	}
 	var email = fmt.Sprint(data[database.UserEmail])
+	var password = fmt.Sprint(data[database.UserPassword])
+	var salt = fmt.Sprint(data[database.UserSalt])
 	var firstName = fmt.Sprint(data[database.UserFirstName])
 	var lastName = fmt.Sprint(data[database.UserLastName])
 	isActive, err := strconv.ParseBool(fmt.Sprint(data[database.UserIsActive]))
@@ -38,9 +40,9 @@ func NewUserFromMapRows(data map[string]interface{}) (user.User, errors.Error) {
 	if nullableUpdatedAt != nil {
 		updatedAt = *nullableUpdatedAt
 	}
-	userObject, validationError := user.NewBuilder().WithID(id).WithEmail(email).WithFirstName(firstName).
-		WithLastName(lastName).WithIsActive(isActive).WithCreatedAt(createdAt).WithUpdatedAt(updatedAt).
-		WithDeletedAt(deletedAt).Build()
+	userObject, validationError := user.NewBuilder().WithID(id).WithEmail(email).WithPassword(password).WithSalt(salt).
+		WithFirstName(firstName).WithLastName(lastName).WithIsActive(isActive).WithCreatedAt(createdAt).
+		WithUpdatedAt(updatedAt).WithDeletedAt(deletedAt).Build()
 	if validationError != nil {
 		return nil, logger.LogCustomError(validationError)
 	}

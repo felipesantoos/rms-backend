@@ -6,6 +6,11 @@ import (
 	"rms-backend/src/infra/repository/postgres"
 )
 
+func AuthServices() primary.IAuthServices {
+	authRepository := postgres.NewAuthPostgresRepository()
+	return services.NewAuthServices(authRepository)
+}
+
 func ProjectServices() primary.IProjectServices {
 	projectRepository := postgres.NewProjectPostgresRepository()
 	return services.NewProjectServices(projectRepository)

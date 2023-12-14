@@ -20,6 +20,7 @@ func (this *router) Load(group *echo.Group) {
 	if os.Getenv("SERVER_MODE") == "dev" || os.Getenv("SERVER_MODE") == "stage" {
 		this.LoadDocs(group)
 	}
+	NewAuthRouter().Load(group)
 	NewProjectRouter().Load(group)
 	NewRequirementRouter().Load(group)
 	NewResourceRouter().Load(group)

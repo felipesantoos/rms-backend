@@ -1,5 +1,12 @@
 basePath: /api
 definitions:
+  request.LoginDTO:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
   request.Project:
     properties:
       alias:
@@ -43,6 +50,11 @@ definitions:
         type: string
       user_story:
         example: User story of the Requirement A.
+        type: string
+    type: object
+  response.Authorization:
+    properties:
+      access_token:
         type: string
     type: object
   response.ErrorMessage:
@@ -191,6 +203,54 @@ info:
   title: RMS API
   version: "1.0"
 paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Rota que permite que um usuário se autentique no sistema utilizando
+        seu endereço de e-mail e senha.
+      operationId: Login
+      parameters:
+      - description: JSON com todos os dados necessários para que o login seja realizado.
+        in: body
+        name: json
+        required: true
+        schema:
+          $ref: '#/definitions/request.LoginDTO'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Requisição realizada com sucesso.
+          schema:
+            $ref: '#/definitions/response.Authorization'
+        "400":
+          description: Requisição mal formulada.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "401":
+          description: Usuário não autorizado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "403":
+          description: Acesso negado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "422":
+          description: Algum dado informado não pôde ser processado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "500":
+          description: Ocorreu um erro inesperado.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+        "503":
+          description: A base de dados não está disponível.
+          schema:
+            $ref: '#/definitions/response.ErrorMessage'
+      summary: Fazer login no sistema
+      tags:
+      - Rotas de autenticação
   /collaborators/{projectID}:
     get:
       description: Rota que permite a listagem dos colaboradores.

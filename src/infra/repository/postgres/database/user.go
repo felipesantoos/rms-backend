@@ -5,6 +5,8 @@ package database
 const (
 	UserID        = "user_id"
 	UserEmail     = "user_email"
+	UserPassword  = "user_password"
+	UserSalt      = "user_salt"
 	UserFirstName = "user_first_name"
 	UserLastName  = "user_last_name"
 	UserIsActive  = "user_is_active"
@@ -93,6 +95,8 @@ func (userQuery) ByEmail() string {
 		SELECT
 			u.id AS user_id,
 			u.email AS user_email,
+			u.password AS user_password,
+			u.salt AS user_salt,
 			u.first_name AS user_first_name,
 			u.last_name AS user_last_name,
 			u.is_active AS user_is_active,
