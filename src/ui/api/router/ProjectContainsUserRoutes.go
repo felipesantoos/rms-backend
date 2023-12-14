@@ -21,5 +21,6 @@ func (this *projectContainsUserRouter) Load(apiGroup *echo.Group) {
 	projectContainsUserGroup := apiGroup.Group("/collaborators")
 	projectContainsUserGroup.POST("/:projectID", this.projectContainsUserHandler.Create)
 	projectContainsUserGroup.GET("/:projectID", this.projectContainsUserHandler.List)
+	projectContainsUserGroup.GET("/possible-collaborators/:projectID", this.projectContainsUserHandler.InverseList)
 	projectContainsUserGroup.DELETE("/:projectID/:userID", this.projectContainsUserHandler.Delete)
 }

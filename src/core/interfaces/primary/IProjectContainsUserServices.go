@@ -9,5 +9,6 @@ import (
 type IProjectContainsUserServices interface {
 	Create(projectID uuid.UUID, projectContainsUserObject projectContainsUser.ProjectContainsUser) errors.Error
 	List(projectID uuid.UUID) ([]projectContainsUser.ProjectContainsUser, errors.Error)
+	InverseList(projectID uuid.UUID) ([]projectContainsUser.ProjectContainsUser, errors.Error)
 	Delete(projectID, userID uuid.UUID) errors.Error
 }

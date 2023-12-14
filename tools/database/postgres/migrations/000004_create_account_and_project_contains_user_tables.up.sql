@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS account (
 CREATE TABLE IF NOT EXISTS project_contains_user (
     user_id UUID NOT NULL,
     project_id UUID NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
     deleted_at TIMESTAMP NULL,
     CONSTRAINT project_contains_user_pk PRIMARY KEY (user_id, project_id),
     CONSTRAINT user_id_fk FOREIGN KEY (user_id) REFERENCES account (id),

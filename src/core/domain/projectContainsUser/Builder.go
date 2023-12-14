@@ -65,32 +65,12 @@ func (this *builder) WithLastName(lastName string) *builder {
 	return this
 }
 
-func (this *builder) WithProjectID(projectId uuid.UUID) *builder {
-	if projectId.ID() == 0 {
-		this.fields = append(this.fields, messages.ProjectID)
-		this.errorMessages = append(this.errorMessages, messages.ProjectIDCannotBeEmpty)
-		return this
-	}
-	this.projectContainsUser.projectId = projectId
-	return this
-}
-
-func (this *builder) WithCreatedAt(createdAt time.Time) *builder {
-	if createdAt.IsZero() {
-		this.fields = append(this.fields, messages.ProjectContainsUserCreatedAt)
-		this.errorMessages = append(this.errorMessages, messages.ProjectContainsUserCreatedAtCannotBeEmpty)
-		return this
-	}
+func (this *builder) WithCreatedAt(createdAt *time.Time) *builder {
 	this.projectContainsUser.createdAt = createdAt
 	return this
 }
 
-func (this *builder) WithUpdatedAt(updatedAt time.Time) *builder {
-	if updatedAt.IsZero() {
-		this.fields = append(this.fields, messages.ProjectContainsUserCreatedAt)
-		this.errorMessages = append(this.errorMessages, messages.ProjectContainsUserCreatedAtCannotBeEmpty)
-		return this
-	}
+func (this *builder) WithUpdatedAt(updatedAt *time.Time) *builder {
 	this.projectContainsUser.updatedAt = updatedAt
 	return this
 }

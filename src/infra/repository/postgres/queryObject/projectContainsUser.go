@@ -23,24 +23,12 @@ func NewProjectContainsUserFromMapRows(data map[string]interface{}) (projectCont
 	var userFirstName = fmt.Sprint(data[database.UserFirstName])
 	var userLastName = fmt.Sprint(data[database.UserLastName])
 
-	projectId, err := uuid.Parse(string(data[database.ProjectID].([]uint8)))
-	if err != nil {
-		logger.LogNativeError(err)
-		return nil, logger.LogCustomError(errors.NewUnexpected())
-	}
-	nullableCreatedAt := utils.GetNullableValue[time.Time](data[database.ProjectContainsUserCreatedAt])
-	nullableUpdatedAt := utils.GetNullableValue[time.Time](data[database.ProjectContainsUserUpdatedAt])
+	var createdAt = utils.GetNullableValue[time.Time](data[database.ProjectContainsUserCreatedAt])
+	var updatedAt = utils.GetNullableValue[time.Time](data[database.ProjectContainsUserUpdatedAt])
 	var deletedAt = utils.GetNullableValue[time.Time](data[database.ProjectContainsUserDeletedAt])
-	var createdAt time.Time
-	if nullableCreatedAt != nil {
-		createdAt = *nullableCreatedAt
-	}
-	var updatedAt time.Time
-	if nullableUpdatedAt != nil {
-		updatedAt = *nullableUpdatedAt
-	}
+
 	projectContainsUserObject, validationError := projectContainsUser.NewBuilder().WithUserID(userId).
-		WithUserEmail(userEmail).WithFirstName(userFirstName).WithProjectID(projectId).
+		WithUserEmail(userEmail).WithFirstName(userFirstName).
 		WithLastName(userLastName).WithCreatedAt(createdAt).WithUpdatedAt(updatedAt).WithDeletedAt(deletedAt).Build()
 	if validationError != nil {
 		return nil, logger.LogCustomError(validationError)

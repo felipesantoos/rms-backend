@@ -58,6 +58,24 @@ func (this *projectContainsUserPostgresRepository) List(projectID uuid.UUID) ([]
 	return projectContainsUsers, nil
 }
 
+func (*projectContainsUserPostgresRepository) InverseList(projectID uuid.UUID) ([]projectContainsUser.ProjectContainsUser, errors.Error) {
+	rows, err := database.Queryx(database.ProjectContainsUser().Query().InverseAll(), projectID)
+	if err != nil {
+		return nil, logger.LogCustomError(err)
+	}
+	projectNoContainsUsers := make([]projectContainsUser.ProjectContainsUser, 0)
+	for rows.Next() {
+		serializedProjectNoContainsUsers := map[string]interface{}{}
+		rows.MapScan(serializedProjectNoContainsUsers)
+		projectNoContainsUserObject, err := queryObject.NewProjectContainsUserFromMapRows(serializedProjectNoContainsUsers)
+		if err != nil {
+			return nil, logger.LogCustomError(err)
+		}
+		projectNoContainsUsers = append(projectNoContainsUsers, projectNoContainsUserObject)
+	}
+	return projectNoContainsUsers, nil
+}
+
 func (this *projectContainsUserPostgresRepository) Delete(projectID, userID uuid.UUID) errors.Error {
 	err := defaultExecQuery(database.ProjectContainsUser().Command().Delete(), projectID, userID)
 	if err != nil {

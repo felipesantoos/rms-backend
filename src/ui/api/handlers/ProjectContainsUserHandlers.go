@@ -13,6 +13,7 @@ import (
 type ProjectContainsUserHandlers interface {
 	Create(echo.Context) error
 	List(echo.Context) error
+	InverseList(echo.Context) error
 	Delete(echo.Context) error
 }
 
@@ -101,6 +102,35 @@ func (this *projectContainsUserHandlers) List(ctx echo.Context) error {
 		return responseFromError(err)
 	}
 	return ctx.JSON(http.StatusOK, response.ProjectContainsUserBuilder().BuildFromDomainList(projectContainsUsers))
+}
+
+// InverseList
+// @ID ProjectContainsUser.InverseList
+// @Summary Listar usuários não colaboradores
+// @Description Rota que permite a listagem dos os usuários que podem ser adicionados como colaboradores.
+// @Tags Colaboradores
+// @Param projectID path string true "ID do projeto."
+// @Produce json
+// @Success 200 {array} response.ProjectContainsUser "Requisição realizada com sucesso."
+// @Failure 400 {object} response.ErrorMessage "Requisição mal formulada."
+// @Failure 401 {object} response.ErrorMessage "Usuário não autorizado."
+// @Failure 403 {object} response.ErrorMessage "Acesso negado."
+// @Failure 404 {object} response.ErrorMessage "Recurso não encontrado."
+// @Failure 422 {object} response.ErrorMessage "Ocorreu um erro de validação de dados. Vefique os valores, tipos e formatos de dados enviados."
+// @Failure 500 {object} response.ErrorMessage "Ocorreu um erro inesperado. Por favor, contate o suporte."
+// @Failure 503 {object} response.ErrorMessage "A base de dados está temporariamente indisponível."
+// @Router /collaborators/possible-collaborators/{projectID} [get]
+func (this *projectContainsUserHandlers) InverseList(ctx echo.Context) error {
+	projectID, err := getUUIDParamFromRequestPath(ctx, params.ProjectID)
+	if err != nil {
+		return responseFromError(err)
+	}
+
+	projectNoContainsUsers, err := this.projectContainsUserServices.InverseList(*projectID)
+	if err != nil {
+		return responseFromError(err)
+	}
+	return ctx.JSON(http.StatusOK, response.ProjectContainsUserBuilder().BuildFromDomainList(projectNoContainsUsers))
 }
 
 // Delete

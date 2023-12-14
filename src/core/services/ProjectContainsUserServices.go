@@ -39,11 +39,19 @@ func (this *projectContainsUserServices) Create(projectID uuid.UUID, projectCont
 }
 
 func (this *projectContainsUserServices) List(projectID uuid.UUID) ([]projectContainsUser.ProjectContainsUser, errors.Error) {
-	projects, err := this.projectContainsUserRepository.List(projectID)
+	projectContainsUsers, err := this.projectContainsUserRepository.List(projectID)
 	if err != nil {
 		return nil, logger.LogCustomError(err)
 	}
-	return projects, nil
+	return projectContainsUsers, nil
+}
+
+func (this *projectContainsUserServices) InverseList(projectID uuid.UUID) ([]projectContainsUser.ProjectContainsUser, errors.Error) {
+	projectContainsUsers, err := this.projectContainsUserRepository.InverseList(projectID)
+	if err != nil {
+		return nil, logger.LogCustomError(err)
+	}
+	return projectContainsUsers, nil
 }
 
 func (this *projectContainsUserServices) Delete(projectID, userID uuid.UUID) errors.Error {
