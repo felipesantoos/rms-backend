@@ -21,14 +21,14 @@ const docTemplate = `{
     "paths": {
         "/collaborators/possible-collaborators/{projectID}": {
             "get": {
-                "description": "Rota que permite a listagem dos os usuários que podem ser adicionados como colaboradores.",
+                "description": "Rota que permite a listagem dos usuários que podem ser adicionados como colaboradores.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "Colaboradores"
                 ],
-                "summary": "Listar usuários não colaboradores",
+                "summary": "Listar usuários que não são colaboradores",
                 "operationId": "ProjectContainsUser.InverseList",
                 "parameters": [
                     {

@@ -106,8 +106,8 @@ func (this *projectContainsUserHandlers) List(ctx echo.Context) error {
 
 // InverseList
 // @ID ProjectContainsUser.InverseList
-// @Summary Listar usuários não colaboradores
-// @Description Rota que permite a listagem dos os usuários que podem ser adicionados como colaboradores.
+// @Summary Listar usuários que não são colaboradores
+// @Description Rota que permite a listagem dos usuários que podem ser adicionados como colaboradores.
 // @Tags Colaboradores
 // @Param projectID path string true "ID do projeto."
 // @Produce json
