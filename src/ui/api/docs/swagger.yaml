@@ -207,8 +207,15 @@ paths:
     post:
       consumes:
       - application/json
-      description: Rota que permite que um usuário se autentique no sistema utilizando
-        seu endereço de e-mail e senha.
+      description: |-
+        Rota que permite que um usuário se autentique no sistema utilizando seu endereço de e-mail e senha.
+        | E-mail              | Senha     |
+        |---------------------|-----------|
+        | john@gmail.com      | Test1234! |
+        | jane@gmail.com      | Test1234! |
+        | bob@gmail.com       | Test1234! |
+        | williams@gmail.com  | Test1234! |
+        | brown@gmail.com     | Test1234! |
       operationId: Login
       parameters:
       - description: JSON com todos os dados necessários para que o login seja realizado.

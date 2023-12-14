@@ -26,6 +26,13 @@ func NewAuthHandler(authServices primary.IAuthServices) AuthHandlers {
 // @Summary Fazer login no sistema
 // @Tags Rotas de autenticação
 // @Description Rota que permite que um usuário se autentique no sistema utilizando seu endereço de e-mail e senha.
+// @Description | E-mail              | Senha     |
+// @Description |---------------------|-----------|
+// @Description | john@gmail.com      | Test1234! |
+// @Description | jane@gmail.com      | Test1234! |
+// @Description | bob@gmail.com       | Test1234! |
+// @Description | williams@gmail.com  | Test1234! |
+// @Description | brown@gmail.com     | Test1234! |
 // @Accept json
 // @Produce json
 // @Param json body request.LoginDTO true "JSON com todos os dados necessários para que o login seja realizado."

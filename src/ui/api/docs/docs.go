@@ -20,7 +20,7 @@ const docTemplate = `{
     "paths": {
         "/auth/login": {
             "post": {
-                "description": "Rota que permite que um usuário se autentique no sistema utilizando seu endereço de e-mail e senha.",
+                "description": "Rota que permite que um usuário se autentique no sistema utilizando seu endereço de e-mail e senha.\n| E-mail              | Senha     |\n|---------------------|-----------|\n| john@gmail.com      | Test1234! |\n| jane@gmail.com      | Test1234! |\n| bob@gmail.com       | Test1234! |\n| williams@gmail.com  | Test1234! |\n| brown@gmail.com     | Test1234! |",
                 "consumes": [
                     "application/json"
                 ],
