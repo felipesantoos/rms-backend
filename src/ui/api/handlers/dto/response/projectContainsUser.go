@@ -11,8 +11,8 @@ type ProjectContainsUser struct {
 	UserEmail     string     `json:"user_email"`
 	UserFirstName string     `json:"user_first_name"`
 	UserLastName  string     `json:"user_last_name"`
-	CreatedAt     time.Time  `json:"created_at"`
-	UpdatedAt     time.Time  `json:"updated_at"`
+	CreatedAt     *time.Time `json:"created_at"`
+	UpdatedAt     *time.Time `json:"updated_at"`
 	DeletedAt     *time.Time `json:"deleted_at"`
 }
 

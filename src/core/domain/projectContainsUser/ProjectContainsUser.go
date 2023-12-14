@@ -14,18 +14,16 @@ type ProjectContainsUser interface {
 	UserEmail() string
 	UserFirstName() string
 	UserLastName() string
-	ProjectID() uuid.UUID
-	CreatedAt() time.Time
-	UpdatedAt() time.Time
+	CreatedAt() *time.Time
+	UpdatedAt() *time.Time
 	DeletedAt() *time.Time
 
 	SetUserID(uuid.UUID) errors.Error
 	SetUserEmail(string)
 	SetUserFirstName(string)
 	SetUserLastName(string)
-	SetProjectID(uuid.UUID) errors.Error
-	SetCreatedAt(time.Time)
-	SetUpdatedAt(time.Time)
+	SetCreatedAt(*time.Time)
+	SetUpdatedAt(*time.Time)
 	SetDeletedAt(*time.Time)
 }
 
@@ -34,9 +32,8 @@ type projectContainsUser struct {
 	userEmail     string
 	userFirstName string
 	userLastName  string
-	projectId     uuid.UUID
-	createdAt     time.Time
-	updatedAt     time.Time
+	createdAt     *time.Time
+	updatedAt     *time.Time
 	deletedAt     *time.Time
 }
 
@@ -56,15 +53,11 @@ func (this *projectContainsUser) UserLastName() string {
 	return this.userLastName
 }
 
-func (this *projectContainsUser) ProjectID() uuid.UUID {
-	return this.projectId
-}
-
-func (this *projectContainsUser) CreatedAt() time.Time {
+func (this *projectContainsUser) CreatedAt() *time.Time {
 	return this.createdAt
 }
 
-func (this *projectContainsUser) UpdatedAt() time.Time {
+func (this *projectContainsUser) UpdatedAt() *time.Time {
 	return this.updatedAt
 }
 
@@ -92,19 +85,11 @@ func (this *projectContainsUser) SetUserLastName(lastName string) {
 	this.userLastName = lastName
 }
 
-func (this *projectContainsUser) SetProjectID(projectId uuid.UUID) errors.Error {
-	if projectId.ID() == 0 {
-		return errors.NewValidationFromString(messages.ProjectIDCannotBeEmpty)
-	}
-	this.projectId = projectId
-	return nil
-}
-
-func (this *projectContainsUser) SetCreatedAt(createdAt time.Time) {
+func (this *projectContainsUser) SetCreatedAt(createdAt *time.Time) {
 	this.createdAt = createdAt
 }
 
-func (this *projectContainsUser) SetUpdatedAt(updatedAt time.Time) {
+func (this *projectContainsUser) SetUpdatedAt(updatedAt *time.Time) {
 	this.createdAt = updatedAt
 }
 

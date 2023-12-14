@@ -66,6 +66,7 @@ func (projectContainsUserCommand) ReactivateCollaborator() string {
 
 type IProjectContainsUserQuery interface {
 	All() string
+	InverseAll() string
 	IsCollaborator() string
 }
 
@@ -82,8 +83,6 @@ func (projectContainsUserQuery) All() string {
 		    u.email AS user_email,
 			u.first_name AS user_first_name,
 			u.last_name AS user_last_name,
-			u.is_active AS user_is_active,
-			pcu.project_id AS project_id,
 			pcu.created_at AS project_contains_user_created_at,
 			pcu.updated_at AS project_contains_user_updated_at,
 			pcu.deleted_at AS project_contains_user_deleted_at
@@ -92,6 +91,27 @@ func (projectContainsUserQuery) All() string {
 		WHERE pcu.deleted_at IS NULL
 		AND u.deleted_at IS NULL
 		AND pcu.project_id = $1
+		ORDER BY u.first_name
+	`
+}
+
+func (projectContainsUserQuery) InverseAll() string {
+	return `
+		SELECT
+    		u.id AS user_id,
+    		u.email AS user_email,
+    		u.first_name AS user_first_name,
+    		u.last_name AS user_last_name,
+    		pcu.created_at AS project_contains_user_created_at,
+    		pcu.updated_at AS project_contains_user_updated_at,
+    		pcu.deleted_at AS project_contains_user_deleted_at
+		FROM account u
+ 		LEFT JOIN project_contains_user pcu ON u.id = pcu.user_id
+	    AND pcu.deleted_at IS NULL
+ 		AND pcu.project_id = $1
+		WHERE u.deleted_at IS NULL
+		AND pcu.user_id IS NULL
+		ORDER BY u.first_name
 	`
 }
 
@@ -102,7 +122,6 @@ func (projectContainsUserQuery) IsCollaborator() string {
 		    u.email AS user_email,
 			u.first_name AS user_first_name,
 			u.last_name AS user_last_name,
-			pcu.project_id AS project_id,
 			pcu.created_at AS project_contains_user_created_at,
 			pcu.updated_at AS project_contains_user_updated_at,
 			pcu.deleted_at AS project_contains_user_deleted_at
