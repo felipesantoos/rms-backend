@@ -354,7 +354,7 @@ paths:
       - Colaboradores
   /collaborators/possible-collaborators/{projectID}:
     get:
-      description: Rota que permite a listagem dos os usuários que podem ser adicionados
+      description: Rota que permite a listagem dos usuários que podem ser adicionados
         como colaboradores.
       operationId: ProjectContainsUser.InverseList
       parameters:
@@ -401,7 +401,7 @@ paths:
           description: A base de dados está temporariamente indisponível.
           schema:
             $ref: '#/definitions/response.ErrorMessage'
-      summary: Listar usuários não colaboradores
+      summary: Listar usuários que não são colaboradores
       tags:
       - Colaboradores
   /projects:
