@@ -113,8 +113,8 @@ func (projectQuery) ByID() string {
 			project.is_active AS project_is_active,
 			project.created_at AS project_created_at,
 			project.updated_at AS project_updated_at,
-			project.deleted_at AS project_deleted_at
-			(select account.email from account where account.id = project.created_by) AS project_created_by_user_email
+			project.deleted_at AS project_deleted_at,
+			(SELECT account.email FROM account WHERE account.id = project.created_by) AS project_created_by_user_email
 		FROM project
 		WHERE project.id = $1
 			AND deleted_at IS NULL
