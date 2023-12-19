@@ -18,8 +18,8 @@ func NewProjectServices(projectRepository repository.IProjectRepository) primary
 	return &projectServices{projectRepository: projectRepository}
 }
 
-func (this *projectServices) Create(projectObject project.Project) (*uuid.UUID, errors.Error) {
-	id, err := this.projectRepository.Create(projectObject)
+func (this *projectServices) Create(userID uuid.UUID, projectObject project.Project) (*uuid.UUID, errors.Error) {
+	id, err := this.projectRepository.Create(userID, projectObject)
 	if err != nil {
 		return nil, logger.LogCustomError(err)
 	}

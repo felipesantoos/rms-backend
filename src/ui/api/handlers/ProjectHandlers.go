@@ -35,6 +35,7 @@ func NewProjectHandler(projectServices primary.IProjectServices) ProjectHandlers
 // @Tags Projetos
 // @Accept json
 // @Param json body request.Project true "JSON com todos os dados necessários para se cadastrar um projeto."
+// @Security bearerAuth
 // @Produce json
 // @Success 201 {object} response.ID "Requisição realizada com sucesso."
 // @Failure 400 {object} response.ErrorMessage "Requisição mal formulada."
@@ -46,6 +47,10 @@ func NewProjectHandler(projectServices primary.IProjectServices) ProjectHandlers
 // @Failure 503 {object} response.ErrorMessage "A base de dados está temporariamente indisponível."
 // @Router /projects [post]
 func (this *projectHandlers) Create(ctx echo.Context) error {
+	userID, err := token.GetAccountIDFromAuthorization(ctx)
+	if err != nil {
+		return responseFromError(err)
+	}
 	var projectDTO request.Project
 	bindError := ctx.Bind(&projectDTO)
 	if bindError != nil {
@@ -55,7 +60,7 @@ func (this *projectHandlers) Create(ctx echo.Context) error {
 	if validationError != nil {
 		return responseFromError(validationError)
 	}
-	id, err := this.projectServices.Create(projectObject)
+	id, err := this.projectServices.Create(*userID, projectObject)
 	if err != nil {
 		return responseFromError(err)
 	}

@@ -18,7 +18,7 @@ func NewProjectPostgresRepository() repository.IProjectRepository {
 	return &projectPostgresRepository{}
 }
 
-func (*projectPostgresRepository) Create(projectObject project.Project) (*uuid.UUID, errors.Error) {
+func (*projectPostgresRepository) Create(userID uuid.UUID, projectObject project.Project) (*uuid.UUID, errors.Error) {
 	transaction, err := database.BeginTransaction()
 	if err != nil {
 		return nil, logger.LogCustomError(err)
@@ -39,6 +39,15 @@ func (*projectPostgresRepository) Create(projectObject project.Project) (*uuid.U
 	if conversionError != nil {
 		logger.LogNativeError(conversionError)
 		return nil, logger.LogCustomError(errors.NewUnexpected())
+	}
+	err = defaultTxExecQuery(
+		transaction,
+		database.ProjectContainsUser().Command().Create(),
+		projectID,
+		userID,
+	)
+	if err != nil {
+		return nil, logger.LogCustomError(err)
 	}
 	err = transaction.Commit()
 	if err != nil {
