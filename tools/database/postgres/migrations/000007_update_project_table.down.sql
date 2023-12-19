@@ -1,0 +1,5 @@
+ALTER TABLE project DROP COLUMN created_by;
+
+-- Datas
+
+TRUNCATE project RESTART IDENTITY CASCADE;

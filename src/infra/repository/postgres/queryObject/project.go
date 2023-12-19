@@ -38,9 +38,11 @@ func NewProjectFromMapRows(data map[string]interface{}) (project.Project, errors
 	if nullableUpdatedAt != nil {
 		updatedAt = *nullableUpdatedAt
 	}
+	var createdByUserEmail = fmt.Sprint(data[database.ProjectCreatedByUserEmail])
+
 	projectObject, validationError := project.NewBuilder().WithID(id).WithName(name).WithAlias(alias).
 		WithDescription(description).WithIsActive(isActive).WithCreatedAt(createdAt).WithUpdatedAt(updatedAt).
-		WithDeletedAt(deletedAt).Build()
+		WithDeletedAt(deletedAt).WithCreatedByUserEmail(createdByUserEmail).Build()
 	if validationError != nil {
 		return nil, logger.LogCustomError(validationError)
 	}
