@@ -8,7 +8,7 @@ import (
 )
 
 type IProjectRepository interface {
-	Create(projectObject project.Project) (*uuid.UUID, errors.Error)
+	Create(userID uuid.UUID, projectObject project.Project) (*uuid.UUID, errors.Error)
 	List(projectFilters filters.ProjectFilters) ([]project.Project, errors.Error)
 	Get(id uuid.UUID) (project.Project, errors.Error)
 	Update(projectObject project.Project) errors.Error

@@ -145,7 +145,7 @@ func (requirementQuery) LastByProject() string {
 			created_at AS requirement_created_at,
 			updated_at AS requirement_updated_at
 		FROM requirement
-		WHERE project_id = $1 AND deleted_at IS NULL
+		WHERE project_id = $1
 		ORDER BY code DESC
 		LIMIT 1
 	`

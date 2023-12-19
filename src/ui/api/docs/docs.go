@@ -542,6 +542,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
                 "description": "Rota que permite o cadastro de um projeto.",
                 "consumes": [
                     "application/json"

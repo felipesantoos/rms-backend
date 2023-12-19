@@ -631,6 +631,8 @@ paths:
           description: A base de dados está temporariamente indisponível.
           schema:
             $ref: '#/definitions/response.ErrorMessage'
+      security:
+      - bearerAuth: []
       summary: Cadastrar projeto
       tags:
       - Projetos
