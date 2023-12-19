@@ -84,6 +84,17 @@ func (this *builder) WithDeletedAt(deletedAt *time.Time) *builder {
 	return this
 }
 
+func (this *builder) WithCreatedByUserEmail(createdByUserEmail string) *builder {
+	createdByUserEmail = strings.TrimSpace(createdByUserEmail)
+	if len(createdByUserEmail) == 0 {
+		this.fields = append(this.fields, messages.ProjectCreatedByUserEmail)
+		this.errorMessages = append(this.errorMessages, messages.ProjectCreatedByUserEmailCannotBeEmpty)
+		return this
+	}
+	this.project.createdByUserEmail = createdByUserEmail
+	return this
+}
+
 func (this *builder) Build() (*project, errors.Error) {
 	if len(this.errorMessages) != 0 {
 		return nil, errors.NewValidationWithMetadata(this.errorMessages, map[string]interface{}{

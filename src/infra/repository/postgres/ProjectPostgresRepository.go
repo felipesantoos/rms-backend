@@ -31,6 +31,7 @@ func (*projectPostgresRepository) Create(userID uuid.UUID, projectObject project
 		projectObject.Alias(),
 		projectObject.Description(),
 		projectObject.IsActive(),
+		userID,
 	)
 	if err != nil {
 		return nil, logger.LogCustomError(err)

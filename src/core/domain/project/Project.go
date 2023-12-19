@@ -18,6 +18,7 @@ type Project interface {
 	CreatedAt() time.Time
 	UpdatedAt() time.Time
 	DeletedAt() *time.Time
+	CreatedByUserEmail() string
 
 	SetID(uuid.UUID) errors.Error
 	SetName(string)
@@ -27,17 +28,19 @@ type Project interface {
 	SetCreatedAt(time.Time)
 	SetUpdatedAt(time.Time)
 	SetDeletedAt(*time.Time)
+	SetCreatedByUserEmail(string)
 }
 
 type project struct {
-	id          uuid.UUID
-	name        string
-	alias       string
-	description string
-	isActive    bool
-	createdAt   time.Time
-	updatedAt   time.Time
-	deletedAt   *time.Time
+	id                 uuid.UUID
+	name               string
+	alias              string
+	description        string
+	isActive           bool
+	createdAt          time.Time
+	updatedAt          time.Time
+	deletedAt          *time.Time
+	createdByUserEmail string
 }
 
 func (this *project) ID() uuid.UUID {
@@ -70,6 +73,10 @@ func (this *project) UpdatedAt() time.Time {
 
 func (this *project) DeletedAt() *time.Time {
 	return this.deletedAt
+}
+
+func (this *project) CreatedByUserEmail() string {
+	return this.createdByUserEmail
 }
 
 func (this *project) SetID(id uuid.UUID) errors.Error {
@@ -106,4 +113,8 @@ func (this *project) SetUpdatedAt(updatedAt time.Time) {
 
 func (this *project) SetDeletedAt(deletedAt *time.Time) {
 	this.deletedAt = deletedAt
+}
+
+func (this *project) SetCreatedByUserEmail(createdByUserEmail string) {
+	this.createdByUserEmail = createdByUserEmail
 }
